@@ -8,7 +8,7 @@ vendor/
 *.sql
 *.tar.gz
 *.zip
-
+*.code-workspace
 # Ignore build files
 build
 
