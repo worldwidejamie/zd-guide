@@ -1,8 +1,26 @@
 {
+  "name": "wwj/zdguide",
+  "description": "Connects to the Zendesk Guide API to build a help center in WordPress",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "php": ">=8.0"
+  },
   "require-dev": {
-    "wp-cli/i18n-command": "^2"
+    "wp-cli/i18n-command": "^2",
+    "wp-coding-standards/wpcs": "^3.0",
+    "phpunit/phpunit": "^9.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0"
   },
   "scripts": {
-    "makepot": "wp i18n make-pot ."
+    "makepot": "wp i18n make-pot .",
+    "phpcs": "phpcs",
+    "phpcbf": "phpcbf",
+    "test": "phpunit"
+  },
+  "autoload": {
+    "psr-4": {
+      "WwjZdguide\\": "includes/"
+    }
   }
 }

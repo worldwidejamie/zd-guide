@@ -8,3 +8,7 @@ vendor/
 *.sql
 *.tar.gz
 *.zip
+
+# Ignore build files
+build
+
