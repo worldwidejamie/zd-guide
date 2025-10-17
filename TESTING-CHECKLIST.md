@@ -1,289 +1,107 @@
 # Testing Checklist
 
-Use this checklist to verify the refactored plugin works correctly.
+Use this checklist as a baseline when verifying a WordPress plugin release. Adapt sections as needed for the specific feature set.
 
-## Pre-Testing Setup
+## Environment
 
-- [ ] Node.js 18+ installed (`node -v`)
-- [ ] PHP 8.0+ available (`php -v`)
-- [ ] WordPress 6.8+ running
-- [ ] Zendesk API credentials ready
+- [ ] Node.js version recorded (`node -v`)
+- [ ] PHP version recorded (`php -v`)
+- [ ] WordPress target version installed
+- [ ] Required services or API credentials available
 
-## Installation Testing
+## Build & Install
 
-### Dependencies
-- [ ] Run `npm install` - completes without errors
-- [ ] Run `npm run build` - creates `build/` directory
-- [ ] Verify `build/blocks/article/` contains:
-  - [ ] `block.json`
-  - [ ] `index.js`
-  - [ ] `index.css`
-  - [ ] `style-index.css`
+- [ ] `npm install` (or `pnpm/yarn install`) completes without errors
+- [ ] `npm run build` (or equivalent) generates production assets
+- [ ] Plugin installs without warnings
+- [ ] Activation succeeds with no PHP notices/errors
+- [ ] Deactivation/uninstall routines run cleanly
 
-### Plugin Activation
-- [ ] Deactivate plugin (if already active)
-- [ ] Reactivate plugin
-- [ ] No PHP errors in debug.log
-- [ ] No fatal errors on activation
-- [ ] Rewrite rules flushed successfully
+## Admin Experience
 
-## Admin Settings Testing
+- [ ] Admin pages load without PHP or JavaScript errors
+- [ ] All settings fields render with labels and help text
+- [ ] Settings save, persist, and display success/error notices as expected
+- [ ] Capability checks prevent unauthorized access
 
-### Settings Page
-- [ ] Navigate to Settings → Zendesk Guide
-- [ ] Page loads without errors
-- [ ] All fields present:
-  - [ ] Subdomain field
-  - [ ] Email field
-  - [ ] API Token field
-- [ ] All buttons present:
-  - [ ] Test Connection
-  - [ ] Sync Categories
-  - [ ] Sync Sections
-  - [ ] Sync Articles
+## Core Functionality
 
-### API Connection
-- [ ] Enter valid Zendesk subdomain
-- [ ] Enter valid email address
-- [ ] Enter valid API token
-- [ ] Click "Save Changes" - saves successfully
-- [ ] Click "Test Connection" - shows success notice
-- [ ] Try invalid credentials - shows error notice
+- [ ] Primary workflows succeed (create/update/delete data)
+- [ ] Validation prevents invalid submissions
+- [ ] Error states display clear guidance
+- [ ] Background/scheduled tasks run as intended
 
-## Sync Testing
+## Editor Blocks (if applicable)
 
-### Categories Sync
-- [ ] Click "Sync Categories"
-- [ ] Wait for completion
-- [ ] Success notice appears with count
-- [ ] Navigate to Zendesk Guide → Categories
-- [ ] Verify categories imported
-- [ ] Check category has proper:
-  - [ ] Name
-  - [ ] Slug (matches Zendesk ID)
-  - [ ] Description
-  - [ ] zendesk_category_id meta
+- [ ] Blocks appear in inserter with correct title, category, and icon
+- [ ] Block controls update preview instantly
+- [ ] Attributes persist after save and reload
+- [ ] No console errors while editing
+- [ ] Dynamic blocks render expected markup on frontend
 
-### Sections Sync
-- [ ] Click "Sync Sections"
-- [ ] Wait for completion
-- [ ] Success notice appears with count
-- [ ] Navigate to Zendesk Guide → Sections
-- [ ] Verify sections imported
-- [ ] Check section has proper:
-  - [ ] Name
-  - [ ] Parent (category)
-  - [ ] Slug (matches Zendesk ID)
-  - [ ] zendesk_section_id meta
+## Frontend Output
 
-### Articles Sync
-- [ ] Click "Sync Articles"
-- [ ] Wait for completion
-- [ ] Success notice appears with count
-- [ ] Navigate to Zendesk Guide → All Articles
-- [ ] Verify articles imported
-- [ ] Check article has proper:
-  - [ ] Title
-  - [ ] Content (body)
-  - [ ] Category assigned
-  - [ ] Section assigned
-  - [ ] zendesk_article_id meta
-  - [ ] Published status
+- [ ] Pages/posts using the plugin render without errors
+- [ ] Links, buttons, and interactive elements function
+- [ ] Styling matches design guidelines on desktop and mobile
+- [ ] Shortcodes/widgets/templates output correct content
 
-### Error Handling
-- [ ] Sync with no credentials - shows error
-- [ ] Sync sections before categories - shows warning
-- [ ] Sync articles before sections - shows warning
-- [ ] Invalid API credentials - shows error
-- [ ] Network error - handles gracefully
+## Performance & Stability
 
-## Block Editor Testing
+- [ ] No slow queries or excessive API calls observed
+- [ ] Asset loading limited to necessary routes
+- [ ] Caching hooks (transients/object cache) behave correctly
+- [ ] Debug log free of warnings/notices during smoke test
 
-### Block Availability
-- [ ] Create new post/page
-- [ ] Open block inserter
-- [ ] Search for "Zendesk Article"
-- [ ] Block appears in results
-- [ ] Block has correct icon (book-alt)
-- [ ] Block category is "Widgets"
+## Accessibility
 
-### Block Functionality
-- [ ] Insert "Zendesk Article" block
-- [ ] Block inserts without errors
-- [ ] Placeholder shows
-- [ ] Inspector controls visible in sidebar
-- [ ] Article dropdown loads
-- [ ] Article options populated
-- [ ] Select an article from dropdown
-- [ ] Preview renders in editor
-- [ ] Toggle "Show Excerpt" - updates preview
-- [ ] Toggle "Show Meta Information" - updates preview
+- [ ] Keyboard navigation reaches all controls
+- [ ] Form fields announce labels with screen readers
+- [ ] ARIA attributes used where needed
+- [ ] Focus states visible and logical
 
-### Block Inspector
-- [ ] "Article Settings" panel present
-- [ ] "Select Article" dropdown works
-- [ ] "Show Excerpt" toggle works
-- [ ] "Show Meta Information" toggle works
-- [ ] Settings persist when block reselected
-- [ ] Settings save with post
+## Security
 
-### Block Preview (Editor)
-- [ ] Article title displays
-- [ ] Article excerpt displays (if enabled)
-- [ ] Category badge shows (if enabled)
-- [ ] Section badge shows (if enabled)
-- [ ] "Read full article" link present
-- [ ] Styling looks correct
-- [ ] No console errors
+- [ ] Inputs sanitized and escaped on output
+- [ ] Nonces and capability checks guard privileged actions
+- [ ] External requests validate responses before use
+- [ ] No sensitive data stored in plain text
 
-## Frontend Testing
+## Internationalization
 
-### Published Content
-- [ ] Publish post/page with block
-- [ ] View on frontend
-- [ ] Block renders correctly
-- [ ] Article title displays
-- [ ] Article excerpt shows (if enabled)
-- [ ] Meta information shows (if enabled)
-- [ ] "Read full article" link works
-- [ ] Link goes to correct article
-- [ ] Styling looks correct
-- [ ] Responsive on mobile
+- [ ] Strings wrapped in translation functions
+- [ ] Text domain matches plugin slug
+- [ ] RTL layout spot-check (if applicable)
 
-### Article Single Page
-- [ ] Navigate to single article (zd_article)
-- [ ] Article displays correctly
-- [ ] Title shown
-- [ ] Content displayed
-- [ ] Categories shown
-- [ ] Sections shown
-- [ ] Permalink works
-- [ ] Archive page works
+## Cross-Browser & Devices
 
-## Performance Testing
+- [ ] Latest Chrome/Edge
+- [ ] Latest Firefox
+- [ ] Latest Safari (desktop + iOS)
+- [ ] Android Chrome
 
-### Load Times
-- [ ] Settings page loads quickly (< 1s)
-- [ ] Block inserter opens quickly
-- [ ] Article dropdown loads within 2s
-- [ ] Frontend renders quickly
-- [ ] No slow database queries
+## Compatibility
 
-### Resource Usage
-- [ ] Check browser Network tab
-- [ ] Scripts load only when needed
-- [ ] Styles load only when needed
-- [ ] No 404 errors for assets
-- [ ] No duplicate asset loading
+- [ ] Works with default block theme
+- [ ] Works with classic theme
+- [ ] Multisite install check (network activate/deactivate)
+- [ ] Plays well with popular companion plugins (list tested)
 
-## JavaScript Testing
+## Regression Coverage
 
-### Browser Console
-- [ ] No errors in console
-- [ ] No warnings (except deprecation notices)
-- [ ] React DevTools shows proper component tree
-- [ ] State updates correctly
+- [ ] Previously fixed bugs remain resolved
+- [ ] Automated tests (PHP/JS) pass locally or in CI
+- [ ] Linting/formatting checks pass
 
-### Build Process
-- [ ] `npm start` runs without errors
-- [ ] Hot reload works during development
-- [ ] Changes reflect immediately
-- [ ] `npm run build` creates minified files
-- [ ] Production build smaller than dev
+## Release Readiness
 
-## PHP Testing
-
-### Code Standards
-- [ ] Run `composer phpcs` (if installed)
-- [ ] No coding standard violations
-- [ ] All functions documented
-- [ ] No deprecated functions used
-
-### Error Logging
-- [ ] Enable WP_DEBUG
-- [ ] Enable WP_DEBUG_LOG
-- [ ] Check debug.log for:
-  - [ ] No PHP errors
-  - [ ] No PHP warnings
-  - [ ] No deprecated notices
-
-### Type Safety
-- [ ] All methods have return types
-- [ ] All parameters have type hints
-- [ ] Properties have type declarations
-- [ ] No type errors
-
-## Accessibility Testing
-
-### Keyboard Navigation
-- [ ] Can tab to block
-- [ ] Can open block settings
-- [ ] Can navigate dropdown
-- [ ] Can toggle switches
-- [ ] All interactive elements focusable
-
-### Screen Reader
-- [ ] Block has proper ARIA labels
-- [ ] Settings have labels
-- [ ] Error messages announced
-- [ ] Success messages announced
-
-## Security Testing
-
-### Input Sanitization
-- [ ] Settings fields sanitized
-- [ ] API responses validated
-- [ ] User input escaped
-- [ ] Nonces checked
-
-### Permissions
-- [ ] Settings page requires 'manage_options'
-- [ ] Sync actions require proper caps
-- [ ] No unauthorized access possible
-
-## Cross-Browser Testing
-
-- [ ] Chrome/Edge (latest)
-- [ ] Firefox (latest)
-- [ ] Safari (latest)
-- [ ] Mobile browsers (iOS Safari, Chrome Android)
-
-## WordPress Compatibility
-
-### Core Features
-- [ ] Block themes work
-- [ ] Classic themes work
-- [ ] Multisite compatible
-- [ ] No conflicts with common plugins
-
-### REST API
-- [ ] Articles available via REST API
-- [ ] Categories available via REST API
-- [ ] Sections available via REST API
-- [ ] Proper authentication
-
-## Cleanup Testing
-
-### After Successful Tests
-- [ ] Remove old files:
-  - [ ] `article-block.php`
-  - [ ] `post-types.php`
-  - [ ] `sync.php`
-  - [ ] `assets/js/block-editor.js`
-  - [ ] `assets/css/block-editor.css`
-- [ ] Plugin still works
-- [ ] No errors after removal
-
-## Final Verification
-
-- [ ] All checkboxes above completed
-- [ ] No open issues
-- [ ] Documentation reviewed
-- [ ] Ready for production
+- [ ] README/documentation updated
+- [ ] Version numbers bumped (plugin header, package.json, etc.)
+- [ ] Changelog drafted
+- [ ] Translation files regenerated (if needed)
+- [ ] Deployment instructions verified
 
 ## Issues Found
-
-Document any issues discovered during testing:
 
 ```
 Issue #1:
@@ -296,26 +114,26 @@ Issue #2:
 ...
 ```
 
-## Test Environment
+## Test Environment Summary
 
 - WordPress Version: ___________
 - PHP Version: ___________
-- Browser: ___________
+- Browser/Device: ___________
 - Node.js Version: ___________
 - Date Tested: ___________
 - Tester: ___________
 
 ## Notes
 
-Additional observations or comments:
+Additional observations, caveats, or follow-up tasks:
 
 ---
 
 ## Sign-Off
 
 - [ ] All critical tests passed
-- [ ] All blockers resolved
-- [ ] Plugin ready for use
+- [ ] Open issues documented or resolved
+- [ ] Release ready for distribution
 
 **Tested by:** ___________________
 **Date:** ___________________

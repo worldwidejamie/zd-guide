@@ -1,0 +1,27 @@
+/* WWJ Zendesk Guide admin styles */
+.wwj-zdguide-admin-panel {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding: 1rem;
+	border: 1px solid #dcdcde;
+	background: #fff;
+	margin: 1.5rem 0;
+	border-radius: 4px;
+}
+
+.wwj-zdguide-admin-panel h2 {
+	margin: 0;
+	font-size: 1.1rem;
+}
+
+.wwj-zdguide-admin-row {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	font-size: 0.95rem;
+}
+
+.wwj-zdguide-admin-row strong {
+	font-weight: 600;
+}

@@ -70,6 +70,9 @@ class Category extends Base_Taxonomy
 	{
 		$this->taxonomy   = 'zd_category';
 		$this->post_types = array('zd_article');
+
+		add_action('zd_category_edit_form', array($this, 'render_reference_ids_panel'), 10, 2);
+
 		parent::__construct();
 	}
 
@@ -108,6 +111,29 @@ class Category extends Base_Taxonomy
 
 		register_taxonomy($this->taxonomy, $this->post_types, $args);
 	}
+
+	public function render_reference_ids_panel(\WP_Term $term, string $taxonomy): void
+	{
+		if ($taxonomy !== $this->taxonomy) {
+			return;
+		}
+
+		$zendesk_cat_id = get_term_meta($term->term_id, 'zendesk_category_id', true);
+		$zendesk_cat_id = $zendesk_cat_id !== '' ? $zendesk_cat_id : '—';
+?>
+		<div class="wwj-zdguide-admin-panel">
+			<h2><?php esc_html_e('Reference IDs', 'wwj-zdguide'); ?></h2>
+			<div class="wwj-zdguide-admin-row">
+				<strong><?php esc_html_e('WordPress Term ID', 'wwj-zdguide'); ?></strong>
+				<span><?php echo esc_html((string) $term->term_id); ?></span>
+			</div>
+			<div class="wwj-zdguide-admin-row">
+				<strong><?php esc_html_e('Zendesk Category ID', 'wwj-zdguide'); ?></strong>
+				<span><?php echo esc_html((string) $zendesk_cat_id); ?></span>
+			</div>
+		</div>
+	<?php
+	}
 }
 
 /**
@@ -122,6 +148,9 @@ class Section extends Base_Taxonomy
 	{
 		$this->taxonomy   = 'zd_section';
 		$this->post_types = array('zd_article');
+
+		add_action('zd_section_edit_form', array($this, 'render_reference_ids_panel'), 10, 2);
+
 		parent::__construct();
 	}
 
@@ -159,5 +188,42 @@ class Section extends Base_Taxonomy
 		);
 
 		register_taxonomy($this->taxonomy, $this->post_types, $args);
+	}
+
+	public function render_reference_ids_panel(\WP_Term $term, string $taxonomy): void
+	{
+		if ($taxonomy !== $this->taxonomy) {
+			return;
+		}
+
+		$zendesk_sec_id = get_term_meta($term->term_id, 'zendesk_section_id', true);
+		$zendesk_sec_id = $zendesk_sec_id !== '' ? $zendesk_sec_id : '—';
+		$parent_term    = $term->parent ? get_term($term->parent, 'zd_category') : null;
+		$parent_cat_id  = $parent_term instanceof \WP_Term ? $parent_term->term_id : null;
+		$parent_zd_id   = $parent_term instanceof \WP_Term ? get_term_meta($parent_term->term_id, 'zendesk_category_id', true) : '';
+		$parent_zd_id   = $parent_zd_id !== '' ? $parent_zd_id : '—';
+	?>
+		<div class="wwj-zdguide-admin-panel">
+			<h2><?php esc_html_e('Reference IDs', 'wwj-zdguide'); ?></h2>
+			<div class="wwj-zdguide-admin-row">
+				<strong><?php esc_html_e('WordPress Term ID', 'wwj-zdguide'); ?></strong>
+				<span><?php echo esc_html((string) $term->term_id); ?></span>
+			</div>
+			<div class="wwj-zdguide-admin-row">
+				<strong><?php esc_html_e('Zendesk Section ID', 'wwj-zdguide'); ?></strong>
+				<span><?php echo esc_html((string) $zendesk_sec_id); ?></span>
+			</div>
+			<?php if ($parent_term instanceof \WP_Term) : ?>
+				<div class="wwj-zdguide-admin-row">
+					<strong><?php esc_html_e('Parent Category Term ID', 'wwj-zdguide'); ?></strong>
+					<span><?php echo esc_html((string) $parent_cat_id); ?></span>
+				</div>
+				<div class="wwj-zdguide-admin-row">
+					<strong><?php esc_html_e('Parent Zendesk Category ID', 'wwj-zdguide'); ?></strong>
+					<span><?php echo esc_html((string) $parent_zd_id); ?></span>
+				</div>
+			<?php endif; ?>
+		</div>
+<?php
 	}
 }

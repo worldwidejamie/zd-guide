@@ -8,11 +8,10 @@
  * Requires at least: 6.8
  * Requires PHP:      8.0
  * Author:            Jamie Smith
- * Author URI:        https://example.com/
+ * Author URI:        https://worldwidejamie.com/
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       wwj-zdguide
- * Domain Path:       /languages
  *
  * @package Wwj_Zdguide
  */

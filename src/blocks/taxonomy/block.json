@@ -1,12 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "wwj-zdguide/article",
+  "name": "wwj-zdguide/taxonomy",
   "version": "0.1.0",
-  "title": "Zendesk Article",
+  "title": "Zendesk Taxonomy Index",
   "category": "widgets",
-  "icon": "book-alt",
-  "description": "Display a Zendesk Guide article snippet.",
+  "icon": "list-view",
+  "description": "Display Zendesk categories or sections as an index list.",
   "example": {},
   "supports": {
     "html": false,
@@ -18,17 +18,25 @@
   "style": "file:./style-index.css",
   "render": "file:./render.php",
   "attributes": {
-    "articleId": {
+    "taxonomy": {
+      "type": "string",
+      "enum": [
+        "zd_category",
+        "zd_section"
+      ],
+      "default": "zd_category"
+    },
+    "itemsToShow": {
       "type": "number",
-      "default": 0
+      "default": 6
     },
-    "showExcerpt": {
+    "showCounts": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
-    "showMeta": {
+    "showDescriptions": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "align": {
       "type": "string"
