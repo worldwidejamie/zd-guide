@@ -6,7 +6,7 @@
   "title": "Zendesk Article",
   "category": "widgets",
   "icon": "book-alt",
-  "description": "Display a Zendesk Guide article.",
+  "description": "Display a Zendesk Guide article snippet.",
   "example": {},
   "supports": {
     "html": false,
