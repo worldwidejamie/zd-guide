@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "wwj-zdguide/taxonomy",
+  "version": "0.1.0",
+  "title": "Zendesk Taxonomy Index",
+  "category": "widgets",
+  "icon": "list-view",
+  "description": "Display Zendesk categories or sections as an index list.",
+  "example": {},
+  "supports": {
+    "html": false,
+    "align": true
+  },
+  "textdomain": "wwj-zdguide",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "attributes": {
+    "taxonomy": {
+      "type": "string",
+      "enum": [
+        "zd_category",
+        "zd_section"
+      ],
+      "default": "zd_category"
+    },
+    "itemsToShow": {
+      "type": "number",
+      "default": 6
+    },
+    "showCounts": {
+      "type": "boolean",
+      "default": false
+    },
+    "showDescriptions": {
+      "type": "boolean",
+      "default": false
+    },
+    "align": {
+      "type": "string"
+    }
+  }
+}

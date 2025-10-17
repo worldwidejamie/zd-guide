@@ -120,6 +120,7 @@ final class Plugin
 	{
 		add_action('init', array($this, 'load_textdomain'));
 		add_action('init', array($this, 'register_blocks'));
+		add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
 	}
 
 	/**
@@ -162,6 +163,39 @@ final class Plugin
 		}
 
 		register_block_type(WWJ_ZDGUIDE_PLUGIN_DIR . 'build/blocks/article');
+		register_block_type(WWJ_ZDGUIDE_PLUGIN_DIR . 'build/blocks/taxonomy');
+	}
+
+	/**
+	 * Enqueue admin-only assets.
+	 *
+	 * @param string $hook_suffix Current admin page hook.
+	 * @return void
+	 */
+	public function enqueue_admin_assets(string $hook_suffix): void
+	{
+		unset($hook_suffix); // Parameter kept for parity with WordPress callback signature.
+
+		if (! function_exists('get_current_screen')) {
+			return;
+		}
+
+		$screen = get_current_screen();
+		if (! $screen || empty($screen->taxonomy)) {
+			return;
+		}
+
+		$target_taxonomies = array('zd_category', 'zd_section');
+		if (! in_array($screen->taxonomy, $target_taxonomies, true)) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'wwj-zdguide-admin',
+			WWJ_ZDGUIDE_PLUGIN_URL . 'assets/css/admin.css',
+			array(),
+			$this->version
+		);
 	}
 
 	/**

@@ -12,6 +12,7 @@ namespace WwjZdguide\Sync;
 use WwjZdguide\API\Zendesk_Client;
 use WwjZdguide\Admin\Settings;
 use WP_Error;
+use WP_Term;
 
 if (! defined('ABSPATH')) {
 	exit;
@@ -35,6 +36,13 @@ class Sync_Handler
 	 * @var Zendesk_Client|null
 	 */
 	private ?Zendesk_Client $client = null;
+
+	/**
+	 * Term lookup cache keyed by taxonomy + meta value.
+	 *
+	 * @var array<string, \WP_Term|null>
+	 */
+	private array $term_cache = array();
 
 	/**
 	 * Constructor.
@@ -182,7 +190,8 @@ class Sync_Handler
 		$synced_count = 0;
 
 		foreach ($categories as $category) {
-			$term = get_term_by('slug', $category->id, 'zd_category');
+			$term = $this->get_term_by_meta('zd_category', 'zendesk_category_id', $category->id);
+			$slug = $this->generate_slug((string) $category->name, (string) $category->id);
 
 			if (! $term) {
 				$new_term = wp_insert_term(
@@ -190,23 +199,33 @@ class Sync_Handler
 					'zd_category',
 					array(
 						'description' => $category->description ?? '',
-						'slug'        => $category->id,
+						'slug'        => $slug,
 					)
 				);
 
 				if (! is_wp_error($new_term)) {
-					add_term_meta($new_term['term_id'], 'zendesk_category_id', $category->id, true);
+					update_term_meta($new_term['term_id'], 'zendesk_category_id', $category->id);
+					$this->prime_term_cache('zd_category', $category->id, get_term($new_term['term_id'], 'zd_category'));
 					$synced_count++;
 				}
 			} else {
-				wp_update_term(
-					$term->term_id,
-					'zd_category',
-					array(
-						'name'        => $category->name,
-						'description' => $category->description ?? '',
-					)
+				$updated_args = array(
+					'name'        => $category->name,
+					'description' => $category->description ?? '',
 				);
+
+				$unique_slug = $slug;
+				if (function_exists('wp_unique_term_slug')) {
+					$unique_slug = wp_unique_term_slug($slug, $term);
+				}
+
+				if ($unique_slug !== $term->slug) {
+					$updated_args['slug'] = $unique_slug;
+				}
+
+				wp_update_term($term->term_id, 'zd_category', $updated_args);
+				update_term_meta($term->term_id, 'zendesk_category_id', $category->id);
+				$this->prime_term_cache('zd_category', $category->id, get_term($term->term_id, 'zd_category'));
 			}
 		}
 
@@ -272,7 +291,8 @@ class Sync_Handler
 			}
 
 			foreach ($sections as $section) {
-				$term = get_term_by('slug', $section->id, 'zd_section');
+				$term = $this->get_term_by_meta('zd_section', 'zendesk_section_id', $section->id);
+				$slug = $this->generate_slug((string) $section->name, (string) $section->id);
 
 				if (! $term) {
 					$new_term = wp_insert_term(
@@ -280,25 +300,35 @@ class Sync_Handler
 						'zd_section',
 						array(
 							'description' => $section->description ?? '',
-							'slug'        => $section->id,
+							'slug'        => $slug,
 							'parent'      => $category->term_id,
 						)
 					);
 
 					if (! is_wp_error($new_term)) {
-						add_term_meta($new_term['term_id'], 'zendesk_section_id', $section->id, true);
+						update_term_meta($new_term['term_id'], 'zendesk_section_id', $section->id);
+						$this->prime_term_cache('zd_section', $section->id, get_term($new_term['term_id'], 'zd_section'));
 						$synced_count++;
 					}
 				} else {
-					wp_update_term(
-						$term->term_id,
-						'zd_section',
-						array(
-							'name'        => $section->name,
-							'description' => $section->description ?? '',
-							'parent'      => $category->term_id,
-						)
+					$updated_args = array(
+						'name'        => $section->name,
+						'description' => $section->description ?? '',
+						'parent'      => $category->term_id,
 					);
+
+					$unique_slug = $slug;
+					if (function_exists('wp_unique_term_slug')) {
+						$unique_slug = wp_unique_term_slug($slug, $term);
+					}
+
+					if ($unique_slug !== $term->slug) {
+						$updated_args['slug'] = $unique_slug;
+					}
+
+					wp_update_term($term->term_id, 'zd_section', $updated_args);
+					update_term_meta($term->term_id, 'zendesk_section_id', $section->id);
+					$this->prime_term_cache('zd_section', $section->id, get_term($term->term_id, 'zd_section'));
 				}
 			}
 		}
@@ -413,5 +443,95 @@ class Sync_Handler
 				$synced_count
 			)
 		);
+	}
+
+	/**
+	 * Retrieve a term by meta value with simple caching.
+	 *
+	 * @param string     $taxonomy  Taxonomy slug.
+	 * @param string     $meta_key  Meta key to query.
+	 * @param int|string $meta_value Meta value to match.
+	 * @return WP_Term|null
+	 */
+	private function get_term_by_meta(string $taxonomy, string $meta_key, $meta_value): ?WP_Term
+	{
+		$cache_key = $this->get_term_cache_key($taxonomy, $meta_value);
+
+		if (array_key_exists($cache_key, $this->term_cache)) {
+			return $this->term_cache[$cache_key] instanceof WP_Term ? $this->term_cache[$cache_key] : null;
+		}
+
+		$terms = get_terms(
+			array(
+				'taxonomy'   => $taxonomy,
+				'hide_empty' => false,
+				'number'     => 1,
+				'meta_query' => array(
+					array(
+						'key'     => $meta_key,
+						'value'   => $meta_value,
+						'compare' => '=',
+					),
+				),
+			)
+		);
+
+		if (is_wp_error($terms) || empty($terms)) {
+			$this->term_cache[$cache_key] = null;
+			return null;
+		}
+
+		$term = $terms[0];
+		$this->term_cache[$cache_key] = $term;
+
+		return $term;
+	}
+
+	/**
+	 * Store a term in the local lookup cache.
+	 *
+	 * @param string        $taxonomy   Taxonomy slug.
+	 * @param int|string    $meta_value Associated meta value.
+	 * @param WP_Term|false $term       Term instance or false on failure.
+	 * @return void
+	 */
+	private function prime_term_cache(string $taxonomy, $meta_value, $term): void
+	{
+		$cache_key = $this->get_term_cache_key($taxonomy, $meta_value);
+		$this->term_cache[$cache_key] = $term instanceof WP_Term ? $term : null;
+	}
+
+	/**
+	 * Build a cache key for term lookup.
+	 *
+	 * @param string     $taxonomy  Taxonomy slug.
+	 * @param int|string $meta_value Meta value.
+	 * @return string
+	 */
+	private function get_term_cache_key(string $taxonomy, $meta_value): string
+	{
+		return $taxonomy . '|' . md5((string) $meta_value);
+	}
+
+	/**
+	 * Generate a human-friendly slug derived from a term name.
+	 *
+	 * @param string $name     Original term name.
+	 * @param string $fallback Fallback string if name is empty after sanitization.
+	 * @return string
+	 */
+	private function generate_slug(string $name, string $fallback): string
+	{
+		$slug = sanitize_title($name);
+
+		if ('' === $slug && '' !== $fallback) {
+			$slug = sanitize_title($fallback);
+		}
+
+		if ('' === $slug) {
+			$slug = uniqid('zd-', false);
+		}
+
+		return $slug;
 	}
 }
