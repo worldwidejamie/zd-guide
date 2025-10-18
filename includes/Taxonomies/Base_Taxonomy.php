@@ -198,8 +198,8 @@ class Section extends Base_Taxonomy
 
 		$zendesk_sec_id = get_term_meta($term->term_id, 'zendesk_section_id', true);
 		$zendesk_sec_id = $zendesk_sec_id !== '' ? $zendesk_sec_id : '—';
-		$parent_term    = $term->parent ? get_term($term->parent, 'zd_category') : null;
-		$parent_cat_id  = $parent_term instanceof \WP_Term ? $parent_term->term_id : null;
+		$parent_cat_id  = (int) get_term_meta($term->term_id, 'zd_category_term_id', true);
+		$parent_term    = $parent_cat_id > 0 ? get_term($parent_cat_id, 'zd_category') : null;
 		$parent_zd_id   = $parent_term instanceof \WP_Term ? get_term_meta($parent_term->term_id, 'zendesk_category_id', true) : '';
 		$parent_zd_id   = $parent_zd_id !== '' ? $parent_zd_id : '—';
 	?>
@@ -216,7 +216,7 @@ class Section extends Base_Taxonomy
 			<?php if ($parent_term instanceof \WP_Term) : ?>
 				<div class="wwj-zdguide-admin-row">
 					<strong><?php esc_html_e('Parent Category Term ID', 'wwj-zdguide'); ?></strong>
-					<span><?php echo esc_html((string) $parent_cat_id); ?></span>
+					<span><?php echo esc_html((string) $parent_term->term_id); ?></span>
 				</div>
 				<div class="wwj-zdguide-admin-row">
 					<strong><?php esc_html_e('Parent Zendesk Category ID', 'wwj-zdguide'); ?></strong>

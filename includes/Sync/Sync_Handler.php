@@ -301,12 +301,13 @@ class Sync_Handler
 						array(
 							'description' => $section->description ?? '',
 							'slug'        => $slug,
-							'parent'      => $category->term_id,
+							'parent'      => 0,
 						)
 					);
 
 					if (! is_wp_error($new_term)) {
 						update_term_meta($new_term['term_id'], 'zendesk_section_id', $section->id);
+						update_term_meta($new_term['term_id'], 'zd_category_term_id', $category->term_id);
 						$this->prime_term_cache('zd_section', $section->id, get_term($new_term['term_id'], 'zd_section'));
 						$synced_count++;
 					}
@@ -314,7 +315,7 @@ class Sync_Handler
 					$updated_args = array(
 						'name'        => $section->name,
 						'description' => $section->description ?? '',
-						'parent'      => $category->term_id,
+						'parent'      => 0,
 					);
 
 					$unique_slug = $slug;
@@ -328,6 +329,7 @@ class Sync_Handler
 
 					wp_update_term($term->term_id, 'zd_section', $updated_args);
 					update_term_meta($term->term_id, 'zendesk_section_id', $section->id);
+					update_term_meta($term->term_id, 'zd_category_term_id', $category->term_id);
 					$this->prime_term_cache('zd_section', $section->id, get_term($term->term_id, 'zd_section'));
 				}
 			}
@@ -425,11 +427,11 @@ class Sync_Handler
 				if ($post_id > 0) {
 					update_post_meta($post_id, 'zendesk_article_id', $article->id);
 
-					// Assign category and section.
-					$section_term = get_term($section->term_id, 'zd_section');
-					if ($section_term && ! is_wp_error($section_term)) {
-						$category_term_id = $section_term->parent;
-						wp_set_post_terms($post_id, array($section->term_id), 'zd_section', false);
+					// Assign section term.
+					wp_set_post_terms($post_id, array($section->term_id), 'zd_section', false);
+
+					$category_term_id = (int) get_term_meta($section->term_id, 'zd_category_term_id', true);
+					if ($category_term_id > 0) {
 						wp_set_post_terms($post_id, array($category_term_id), 'zd_category', false);
 					}
 				}
