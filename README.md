@@ -1,6 +1,10 @@
+<div style="text-align: center;">
+
 # WWJ Zendesk Guide Plugin
 
-A modern WordPress plugin that integrates Zendesk Guide articles into WordPress as custom posts with hierarchical taxonomy organization.
+</div>
+
+<p>A modern WordPress plugin that integrates Zendesk Guide articles into WordPress as custom posts with hierarchical taxonomy organization.</p>
 
 ## Features
 
@@ -168,12 +172,11 @@ GPL-2.0-or-later
 
 For issues and questions, please use the GitHub issue tracker.
 
+## Project Notes
+This is my first open source project! Always open to suggestions or advice for improvement. Additionally, your patience is appreciated.
+
 ### How do I configure the plugin?
 You will need an API token which can be created through your Zendesk settings.
 
 Instructions can be found [here](https://developer.zendesk.com/api-reference/introduction/security-and-auth/).
 
-## Changelog
-
-### 1.0
-* Initial release.

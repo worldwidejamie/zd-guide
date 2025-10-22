@@ -10,10 +10,12 @@
 namespace WwjZdguide;
 
 use WwjZdguide\Admin\Settings;
+use WwjZdguide\API\Help_Center_Search_Controller;
 use WwjZdguide\PostTypes\Article;
 use WwjZdguide\Taxonomies\Category;
 use WwjZdguide\Taxonomies\Section;
 use WwjZdguide\Sync\Sync_Handler;
+use WwjZdguide\Templates\Template_Loader;
 
 if (! defined('ABSPATH')) {
 	exit;
@@ -74,6 +76,20 @@ final class Plugin
 	private Sync_Handler $sync_handler;
 
 	/**
+	 * Template loader instance.
+	 *
+	 * @var Template_Loader
+	 */
+	private Template_Loader $template_loader;
+
+	/**
+	 * Help Center search REST controller.
+	 *
+	 * @var Help_Center_Search_Controller
+	 */
+	private Help_Center_Search_Controller $search_controller;
+
+	/**
 	 * Get the singleton instance.
 	 *
 	 * @return Plugin
@@ -107,8 +123,10 @@ final class Plugin
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Admin/Settings.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/PostTypes/Article.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Taxonomies/Base_Taxonomy.php';
+		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/API/Help_Center_Search_Controller.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/API/Zendesk_Client.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Sync/Sync_Handler.php';
+		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Templates/Template_Loader.php';
 	}
 
 	/**
@@ -135,6 +153,8 @@ final class Plugin
 		$this->category_taxonomy = new Category();
 		$this->section_taxonomy  = new Section();
 		$this->sync_handler      = new Sync_Handler($this->settings);
+		$this->template_loader   = new Template_Loader();
+		$this->search_controller = new Help_Center_Search_Controller();
 	}
 
 	/**
@@ -164,6 +184,7 @@ final class Plugin
 
 		register_block_type(WWJ_ZDGUIDE_PLUGIN_DIR . 'build/blocks/article');
 		register_block_type(WWJ_ZDGUIDE_PLUGIN_DIR . 'build/blocks/taxonomy');
+		register_block_type(WWJ_ZDGUIDE_PLUGIN_DIR . 'build/blocks/help-center-search');
 	}
 
 	/**

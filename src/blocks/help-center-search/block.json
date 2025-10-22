@@ -1,13 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "wwj-zdguide/article",
+  "name": "wwj-zdguide/help-center-search",
   "version": "0.1.0",
-  "title": "Zendesk Article",
+  "title": "Zendesk Help Center Search",
   "category": "widgets",
-  "icon": "book-alt",
-  "description": "Display a Zendesk Guide article snippet.",
-  "example": {},
+  "icon": "search",
+  "description": "Search Zendesk Help Center articles synced into WordPress.",
   "supports": {
     "html": false,
     "align": true,
@@ -17,7 +16,6 @@
       "link": true
     },
     "typography": {
-      "fontFamily": true,
       "fontSize": true,
       "lineHeight": true,
       "letterSpacing": true,
@@ -28,22 +26,20 @@
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
+  "viewScript": "file:./view.js",
   "render": "file:./render.php",
   "attributes": {
-    "articleId": {
+    "placeholder": {
+      "type": "string",
+      "default": "Search help articles"
+    },
+    "resultsPerPage": {
       "type": "number",
-      "default": 0
+      "default": 5
     },
     "showExcerpt": {
       "type": "boolean",
       "default": true
-    },
-    "showMeta": {
-      "type": "boolean",
-      "default": true
-    },
-    "align": {
-      "type": "string"
     }
   }
 }
