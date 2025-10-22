@@ -10,7 +10,19 @@
   "example": {},
   "supports": {
     "html": false,
-    "align": true
+    "align": true,
+    "color": {
+      "text": true,
+      "background": true,
+      "link": true
+    },
+    "typography": {
+      "fontFamily": true,
+      "fontSize": true,
+      "lineHeight": true,
+      "letterSpacing": true,
+      "textTransform": true
+    }
   },
   "textdomain": "wwj-zdguide",
   "editorScript": "file:./index.js",
