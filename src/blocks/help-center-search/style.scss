@@ -1,0 +1,72 @@
+.wwj-zdguide-help-center-search {
+	position: relative;
+}
+
+.wwj-zdguide-help-center-search .wwj-zdguide-search-results {
+	margin-top: 1rem;
+	border-top: 1px solid rgba(15, 23, 42, 0.08);
+	padding-top: 1rem;
+	display: block;
+	color: currentColor;
+}
+
+.wwj-zdguide-help-center-search .wwj-zdguide-search-results[hidden] {
+	display: none;
+}
+
+.wwj-zdguide-help-center-search .wwj-zdguide-search__status {
+	margin: 0;
+	font-style: italic;
+	opacity: 0.85;
+}
+
+.wwj-zdguide-help-center-search .wwj-zdguide-search__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+
+.wwj-zdguide-help-center-search .wwj-zdguide-search__item {
+	padding-bottom: 1rem;
+	border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.wwj-zdguide-help-center-search .wwj-zdguide-search__item:last-child {
+	border-bottom: none;
+	padding-bottom: 0;
+}
+
+.wwj-zdguide-help-center-search .wwj-zdguide-search__title {
+	margin: 0 0 0.35rem;
+	font-weight: 600;
+	font-size: 1.1rem;
+}
+
+.wwj-zdguide-help-center-search .wwj-zdguide-search__excerpt {
+	margin: 0 0 0.5rem;
+	line-height: 1.6;
+	opacity: 0.85;
+}
+
+.wwj-zdguide-help-center-search .wwj-zdguide-search__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-weight: 600;
+	color: var(--wp--style--color--link, currentColor);
+	text-decoration: none;
+}
+
+.wwj-zdguide-help-center-search .wwj-zdguide-search__link:hover,
+.wwj-zdguide-help-center-search .wwj-zdguide-search__link:focus {
+	text-decoration: underline;
+}
+
+.wwj-zdguide-help-center-search.is-loading .wwj-zdguide-search-submit {
+	pointer-events: none;
+	opacity: 0.75;
+}

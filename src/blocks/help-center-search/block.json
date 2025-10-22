@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "wwj-zdguide/help-center-search",
+  "version": "0.1.0",
+  "title": "Zendesk Help Center Search",
+  "category": "widgets",
+  "icon": "search",
+  "description": "Search Zendesk Help Center articles synced into WordPress.",
+  "supports": {
+    "html": false,
+    "align": true,
+    "color": {
+      "text": true,
+      "background": true,
+      "link": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "letterSpacing": true,
+      "textTransform": true
+    }
+  },
+  "textdomain": "wwj-zdguide",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php",
+  "attributes": {
+    "placeholder": {
+      "type": "string",
+      "default": "Search help articles"
+    },
+    "resultsPerPage": {
+      "type": "number",
+      "default": 5
+    },
+    "showExcerpt": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

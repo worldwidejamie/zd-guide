@@ -1,0 +1,27 @@
+.wwj-zdguide-help-center-search {
+	.wp-components-text-control {
+		margin-bottom: 1rem;
+	}
+
+	.wwj-zdguide-search__loading {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-top: 0.75rem;
+	}
+
+	.wwj-zdguide-search-results {
+		margin-top: 1.25rem;
+	}
+
+	.wwj-zdguide-search__list {
+		padding-left: 1rem;
+		list-style: disc;
+	}
+
+	.wwj-zdguide-search__status {
+		margin: 0.5rem 0;
+		color: #6c757d;
+		font-style: italic;
+	}
+}
