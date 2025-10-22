@@ -6,6 +6,8 @@
 
 <p>A modern WordPress plugin that integrates Zendesk Guide articles into WordPress as custom posts with hierarchical taxonomy organization.</p>
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/G2G2VK9I7)
+
 ## Features
 
 - 🔄 Sync Zendesk Guide articles, sections, and categories
