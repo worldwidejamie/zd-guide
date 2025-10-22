@@ -9,8 +9,8 @@
  * Requires PHP:      8.0
  * Author:            Jamie Smith
  * Author URI:        https://worldwidejamie.com/
- * License:           GPL v2 or later
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * License:           GPLv3
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.en.html
  * Text Domain:       wwj-zdguide
  *
  * @package Wwj_Zdguide
