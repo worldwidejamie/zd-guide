@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Connects to the Zendesk Guide API to build a help center in WordPress",
   "author": "Jamie Smith",
-  "license": "GPL-2.0-or-later",
+  "license": "GPL-3.0-only",
   "main": "build/index.js",
   "scripts": {
     "build": "wp-scripts build",
