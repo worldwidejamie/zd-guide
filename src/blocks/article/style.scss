@@ -47,19 +47,20 @@
 		line-height: 1.3;
 
 		a {
-			color: #333;
+			color: currentColor;
 			text-decoration: none;
 			transition: color 0.2s ease;
 
 			&:hover {
-				color: #1976d2;
+				color: var(--wp--style--color--link, currentColor);
 			}
 		}
 	}
 
 	.wwj-zdguide-article-excerpt {
 		margin-bottom: 16px;
-		color: #666;
+		color: inherit;
+		opacity: 0.9;
 		font-size: 16px;
 		line-height: 1.6;
 	}
@@ -67,8 +68,8 @@
 	.wwj-zdguide-read-more {
 		display: inline-block;
 		padding: 8px 16px;
-		color: #fff;
-		background-color: #1976d2;
+		color: var(--wp--style--color--background, #fff);
+		background-color: var(--wp--style--color--link, #1976d2);
 		border-radius: 4px;
 		text-decoration: none;
 		font-size: 14px;
@@ -76,8 +77,8 @@
 		transition: background-color 0.2s ease;
 
 		&:hover {
-			background-color: #1565c0;
-			color: #fff;
+			filter: brightness(0.9);
+			color: var(--wp--style--color--background, #fff);
 		}
 	}
 }
