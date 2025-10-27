@@ -11,6 +11,7 @@ namespace WwjZdguide;
 
 use WwjZdguide\Admin\Settings;
 use WwjZdguide\API\Help_Center_Search_Controller;
+use WwjZdguide\API\Help_Center_Ticket_Form_Controller;
 use WwjZdguide\PostTypes\Article;
 use WwjZdguide\Taxonomies\Category;
 use WwjZdguide\Taxonomies\Section;
@@ -90,6 +91,11 @@ final class Plugin
 	private Help_Center_Search_Controller $search_controller;
 
 	/**
+	 * Help Center ticket form REST controller
+	 */
+	private Help_Center_Ticket_Form_Controller $ticket_forms_controller;
+
+	/**
 	 * Get the singleton instance.
 	 *
 	 * @return Plugin
@@ -124,6 +130,7 @@ final class Plugin
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/PostTypes/Article.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Taxonomies/Base_Taxonomy.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/API/Help_Center_Search_Controller.php';
+		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/API/Help_Center_Ticket_Form_Controller.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/API/Zendesk_Client.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Sync/Sync_Handler.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Templates/Template_Loader.php';
@@ -155,6 +162,7 @@ final class Plugin
 		$this->sync_handler      = new Sync_Handler($this->settings);
 		$this->template_loader   = new Template_Loader();
 		$this->search_controller = new Help_Center_Search_Controller();
+		$this->ticket_forms_controller = new Help_Center_Ticket_Form_Controller();
 	}
 
 	/**
@@ -185,6 +193,7 @@ final class Plugin
 		register_block_type(WWJ_ZDGUIDE_PLUGIN_DIR . 'build/blocks/article');
 		register_block_type(WWJ_ZDGUIDE_PLUGIN_DIR . 'build/blocks/taxonomy');
 		register_block_type(WWJ_ZDGUIDE_PLUGIN_DIR . 'build/blocks/help-center-search');
+		register_block_type(\WWJ_ZDGUIDE_PLUGIN_DIR . 'build/blocks/ticket-forms');
 	}
 
 	/**

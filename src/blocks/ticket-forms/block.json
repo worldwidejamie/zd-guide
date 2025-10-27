@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wwj-zdguide/ticket",
+	"version": "0.1.0",
+	"title": "Zendesk Ticket Form",
+	"category": "widgets",
+	"icon": "smiley",
+	"description": "Embed a Zendesk ticket submission form.",
+	"example": {},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "wwj-zdguide",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+  "attributes": {
+    "selectedFormId": {
+      "type": "number",
+      "default": 0
+    }
+  }
+}
