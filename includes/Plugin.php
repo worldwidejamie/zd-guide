@@ -125,6 +125,7 @@ final class Plugin
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Taxonomies/Base_Taxonomy.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/API/Help_Center_Search_Controller.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/API/Zendesk_Client.php';
+		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Sync/Mapping_Repository.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Sync/Sync_Handler.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Templates/Template_Loader.php';
 	}

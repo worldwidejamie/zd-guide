@@ -36,7 +36,7 @@ $wrapper_attrs = get_block_wrapper_attributes(
 );
 
 ?>
-<form <?php echo $wrapper_attrs; ?>>
+<form <?php echo wp_kses_post($wrapper_attrs); ?>>
 	<label class="wp-block-search__label screen-reader-text" for="<?php echo esc_attr($unique_id); ?>">
 		<?php esc_html_e('Search help articles', 'wwj-zdguide'); ?>
 	</label>

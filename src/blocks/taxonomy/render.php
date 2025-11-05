@@ -47,7 +47,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 	)
 );
 ?>
-<div <?php echo $wrapper_attributes; ?>>
+<div <?php echo wp_kses_post($wrapper_attributes); ?>>
 	<ul class="wwj-zdguide-taxonomy-list">
 		<?php foreach ($terms as $term) :
 			$link = get_term_link($term);

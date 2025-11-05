@@ -36,7 +36,7 @@ $wrapper_attributes = get_block_wrapper_attributes(array(
 ));
 ?>
 
-<div <?php echo $wrapper_attributes; ?>>
+<div <?php echo wp_kses_post($wrapper_attributes); ?>>
 	<?php if ($show_meta && (! empty($categories) || ! empty($sections))) : ?>
 		<div class="wwj-zdguide-article-meta">
 			<?php if (! empty($categories)) : ?>
