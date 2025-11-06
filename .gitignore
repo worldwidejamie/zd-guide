@@ -11,4 +11,5 @@ vendor/
 *.code-workspace
 # Ignore build files
 build
+dist
 
