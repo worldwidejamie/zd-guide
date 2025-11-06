@@ -168,7 +168,7 @@ Authorization: Basic base64(email/token:api_token)
 
 ## License
 
-GPL-2.0-or-later
+GPL-3.0-or-later
 
 ## Support
 
