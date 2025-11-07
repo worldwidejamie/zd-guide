@@ -483,13 +483,15 @@ class Sync_Handler
 	 */
 	private function is_valid_request(string $action): bool
 	{
-		if (! isset($_GET[$action])) {
+		// Verify nonce first before accessing any $_GET data
+		$nonce = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
+
+		if (! wp_verify_nonce($nonce, $action)) {
 			return false;
 		}
 
-		$nonce = isset($_GET['_wpnonce']) ? wp_unslash(sanitize_text_field($_GET['_wpnonce'])) : '';
-
-		if (! wp_verify_nonce($nonce, $action)) {
+		// After nonce verification, check if action parameter exists
+		if (! isset($_GET[$action])) {
 			return false;
 		}
 
