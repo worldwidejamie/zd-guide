@@ -20,31 +20,31 @@ wp_enqueue_style(
 
 get_header();
 
-$term = get_queried_object();
+$wwj_zdguide_term = get_queried_object();
 
-if (! ($term instanceof WP_Term) || ! in_array($term->taxonomy, array('zd_category', 'zd_section'), true)) {
+if (! ($wwj_zdguide_term instanceof WP_Term) || ! in_array($wwj_zdguide_term->taxonomy, array('zd_category', 'zd_section'), true)) {
 	get_template_part('taxonomy');
 	get_footer();
 	return;
 }
 
-$term_description = term_description($term);
+$wwj_zdguide_term_description = term_description($wwj_zdguide_term);
 ?>
 <main id="primary" class="zd-guide-template" aria-labelledby="zd-guide-term-title">
 	<div class="zd-guide-template__header">
 		<h1 id="zd-guide-term-title" class="zd-guide-template__title">
 			<?php echo esc_html(single_term_title('', false)); ?>
 		</h1>
-		<?php if (! empty($term_description)) : ?>
+		<?php if (! empty($wwj_zdguide_term_description)) : ?>
 			<div class="zd-guide-template__description">
-				<?php echo wp_kses_post($term_description); ?>
+				<?php echo wp_kses_post($wwj_zdguide_term_description); ?>
 			</div>
 		<?php endif; ?>
 	</div>
 
-	<?php if ('zd_category' === $term->taxonomy) : ?>
+	<?php if ('zd_category' === $wwj_zdguide_term->taxonomy) : ?>
 		<?php
-		$sections = get_terms(
+		$wwj_zdguide_sections = get_terms(
 			array(
 				'taxonomy'   => 'zd_section',
 				'hide_empty' => false,
@@ -53,16 +53,16 @@ $term_description = term_description($term);
 			)
 		);
 
-		if (is_wp_error($sections)) {
-			$sections = array();
+		if (is_wp_error($wwj_zdguide_sections)) {
+			$wwj_zdguide_sections = array();
 		} else {
 			// Filter in PHP to avoid slow taxonomy meta queries flagged by plugin review.
-			$sections = array_values(
+			$wwj_zdguide_sections = array_values(
 				array_filter(
-					$sections,
-					static function (\WP_Term $section_term) use ($term): bool {
-						$parent_id = (int) get_term_meta($section_term->term_id, 'zd_category_term_id', true);
-						return $parent_id === (int) $term->term_id;
+					$wwj_zdguide_sections,
+					static function (\WP_Term $wwj_zdguide_section_term) use ($wwj_zdguide_term): bool {
+						$wwj_zdguide_parent_id = (int) get_term_meta($wwj_zdguide_section_term->term_id, 'zd_category_term_id', true);
+						return $wwj_zdguide_parent_id === (int) $wwj_zdguide_term->term_id;
 					}
 				)
 			);
@@ -72,28 +72,28 @@ $term_description = term_description($term);
 		<section class="zd-guide-template__section" aria-label="<?php esc_attr_e('Sections', 'zd-guide'); ?>">
 			<h2 class="zd-guide-template__section-title"><?php esc_html_e('Sections', 'zd-guide'); ?></h2>
 
-			<?php if (! empty($sections)) : ?>
+			<?php if (! empty($wwj_zdguide_sections)) : ?>
 				<ul class="zd-guide-taxonomy-list">
-					<?php foreach ($sections as $section_term) :
-						$link = get_term_link($section_term);
-						if (is_wp_error($link)) {
+					<?php foreach ($wwj_zdguide_sections as $wwj_zdguide_section_term) :
+						$wwj_zdguide_section_link = get_term_link($wwj_zdguide_section_term);
+						if (is_wp_error($wwj_zdguide_section_link)) {
 							continue;
 						}
-						$section_description = trim(wp_strip_all_tags($section_term->description));
+						$wwj_zdguide_section_description = trim(wp_strip_all_tags($wwj_zdguide_section_term->description));
 					?>
 						<li class="zd-guide-taxonomy-item">
 							<div class="zd-guide-taxonomy-header">
-								<a class="zd-guide-taxonomy-name" href="<?php echo esc_url($link); ?>">
-									<?php echo esc_html($section_term->name); ?>
+								<a class="zd-guide-taxonomy-name" href="<?php echo esc_url($wwj_zdguide_section_link); ?>">
+									<?php echo esc_html($wwj_zdguide_section_term->name); ?>
 								</a>
 								<span class="zd-guide-taxonomy-count">
-									<?php echo esc_html(number_format_i18n($section_term->count)); ?>
+									<?php echo esc_html(number_format_i18n($wwj_zdguide_section_term->count)); ?>
 								</span>
 							</div>
 
-							<?php if (! empty($section_description)) : ?>
+							<?php if (! empty($wwj_zdguide_section_description)) : ?>
 								<p class="zd-guide-taxonomy-description">
-									<?php echo esc_html($section_description); ?>
+									<?php echo esc_html($wwj_zdguide_section_description); ?>
 								</p>
 							<?php endif; ?>
 						</li>
@@ -107,12 +107,12 @@ $term_description = term_description($term);
 		</section>
 	<?php else : ?>
 		<?php
-		$article_ids = get_objects_in_term($term->term_id, 'zd_section');
+		$wwj_zdguide_article_ids = get_objects_in_term($wwj_zdguide_term->term_id, 'zd_section');
 
-		if (is_wp_error($article_ids) || empty($article_ids)) {
-			$articles = array();
+		if (is_wp_error($wwj_zdguide_article_ids) || empty($wwj_zdguide_article_ids)) {
+			$wwj_zdguide_articles = array();
 		} else {
-			$articles = get_posts(
+			$wwj_zdguide_articles = get_posts(
 				array(
 					'post_type'           => 'zd_article',
 					'post_status'         => 'publish',
@@ -120,7 +120,7 @@ $term_description = term_description($term);
 					'order'               => 'ASC',
 					'posts_per_page'      => -1,
 					'ignore_sticky_posts' => true,
-					'post__in'            => array_map('intval', $article_ids),
+					'post__in'            => array_map('intval', $wwj_zdguide_article_ids),
 				)
 			);
 		}
@@ -129,21 +129,21 @@ $term_description = term_description($term);
 		<section class="zd-guide-template__section" aria-label="<?php esc_attr_e('Articles', 'zd-guide'); ?>">
 			<h2 class="zd-guide-template__section-title"><?php esc_html_e('Articles', 'zd-guide'); ?></h2>
 
-			<?php if (! empty($articles)) : ?>
+			<?php if (! empty($wwj_zdguide_articles)) : ?>
 				<ul class="zd-guide-taxonomy-list">
-					<?php foreach ($articles as $article_post) :
-						$article_link   = get_permalink($article_post);
-						$article_title  = get_the_title($article_post);
-						$article_excerpt = trim(wp_strip_all_tags(get_the_excerpt($article_post)));
+					<?php foreach ($wwj_zdguide_articles as $wwj_zdguide_article_post) :
+						$wwj_zdguide_article_link   = get_permalink($wwj_zdguide_article_post);
+						$wwj_zdguide_article_title  = get_the_title($wwj_zdguide_article_post);
+						$wwj_zdguide_article_excerpt = trim(wp_strip_all_tags(get_the_excerpt($wwj_zdguide_article_post)));
 					?>
 						<li class="zd-guide-taxonomy-item">
 							<div class="zd-guide-taxonomy-header">
-								<a class="zd-guide-taxonomy-name" href="<?php echo esc_url($article_link); ?>">
-									<?php echo esc_html($article_title); ?>
+								<a class="zd-guide-taxonomy-name" href="<?php echo esc_url($wwj_zdguide_article_link); ?>">
+									<?php echo esc_html($wwj_zdguide_article_title); ?>
 								</a>
 							</div>
-							<?php if (! empty($article_excerpt)) : ?>
-								<p class="zd-guide-taxonomy-description"><?php echo esc_html($article_excerpt); ?></p>
+							<?php if (! empty($wwj_zdguide_article_excerpt)) : ?>
+								<p class="zd-guide-taxonomy-description"><?php echo esc_html($wwj_zdguide_article_excerpt); ?></p>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
