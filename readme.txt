@@ -5,7 +5,7 @@ Donate link: https://ko-fi.com/G2G2VK9I7
 Requires at least: 6.1
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: trunk
+Stable tag: 1.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
