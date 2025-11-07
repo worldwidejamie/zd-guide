@@ -137,7 +137,6 @@ final class Plugin
 	 */
 	private function init_hooks(): void
 	{
-		add_action('init', array($this, 'load_textdomain'));
 		add_action('init', array($this, 'register_blocks'));
 		add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
 		add_action('admin_menu', array($this, 'add_uninstall_page'));
@@ -158,20 +157,6 @@ final class Plugin
 		$this->sync_handler      = new Sync_Handler($this->settings);
 		$this->template_loader   = new Template_Loader();
 		$this->search_controller = new Help_Center_Search_Controller();
-	}
-
-	/**
-	 * Load plugin text domain.
-	 *
-	 * @return void
-	 */
-	public function load_textdomain(): void
-	{
-		load_plugin_textdomain(
-			'zd-guide',
-			false,
-			dirname(plugin_basename(WWJ_ZDGUIDE_PLUGIN_DIR)) . '/languages/'
-		);
 	}
 
 	/**
