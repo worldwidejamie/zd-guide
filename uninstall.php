@@ -18,43 +18,43 @@ delete_site_option('wwj_zdguide_settings'); // For multisite.
 
 
 // Get all posts of the custom post type 'zendesk_article'.
-$args = array(
+$wwj_zdguide_args = array(
 	'post_type'      => 'zendesk_article',
 	'posts_per_page' => -1,
 	'post_status'    => 'any',
 	'fields'         => 'ids', // Only get post IDs to improve performance.
 );
 
-$article_posts = get_posts($args);
+$wwj_zdguide_article_posts = get_posts($wwj_zdguide_args);
 
-if (! empty($article_posts)) {
-	foreach ($article_posts as $post_id) {
+if (! empty($wwj_zdguide_article_posts)) {
+	foreach ($wwj_zdguide_article_posts as $wwj_zdguide_post_id) {
 		// Use true to bypass trash and permanently delete.
-		wp_delete_post($post_id, true);
+		wp_delete_post($wwj_zdguide_post_id, true);
 	}
 }
 
 // Delete all terms from the custom taxonomies.
-$taxonomies = array('zd_category', 'zd_section');
+$wwj_zdguide_taxonomies = array('zd_category', 'zd_section');
 
-foreach ($taxonomies as $taxonomy) {
-	$terms = get_terms(
+foreach ($wwj_zdguide_taxonomies as $wwj_zdguide_taxonomy) {
+	$wwj_zdguide_terms = get_terms(
 		array(
-			'taxonomy'   => $taxonomy,
+			'taxonomy'   => $wwj_zdguide_taxonomy,
 			'hide_empty' => false,
 			'fields'     => 'ids',
 		)
 	);
 
-	if (! is_wp_error($terms) && ! empty($terms)) {
-		foreach ($terms as $term_id) {
-			wp_delete_term($term_id, $taxonomy);
+	if (! is_wp_error($wwj_zdguide_terms) && ! empty($wwj_zdguide_terms)) {
+		foreach ($wwj_zdguide_terms as $wwj_zdguide_term_id) {
+			wp_delete_term($wwj_zdguide_term_id, $wwj_zdguide_taxonomy);
 		}
 	}
 }
 
 // Drop the custom database table.
 global $wpdb;
-$table_name = $wpdb->prefix . 'wwj_zdguide_map';
+$wwj_zdguide_table_name = $wpdb->prefix . 'wwj_zdguide_map';
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
-$wpdb->query($wpdb->prepare('DROP TABLE IF EXISTS %i', $table_name));
+$wpdb->query($wpdb->prepare('DROP TABLE IF EXISTS %i', $wwj_zdguide_table_name));
