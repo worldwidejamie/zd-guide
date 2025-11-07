@@ -1,6 +1,6 @@
 <div style="text-align: center;">
 
-# WWJ Zendesk Guide Plugin
+# WWJ ZD Guide Plugin
 
 </div>
 
