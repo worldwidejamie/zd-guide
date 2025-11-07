@@ -121,7 +121,7 @@ class Sync_Handler
 	 */
 	public function handle_test_connection(): void
 	{
-		if (! isset($_GET['wwj_zdguide_test_connection']) || ! wp_verify_nonce($_GET['_wpnonce'], 'wwj_zdguide_test_connection')) {
+		if (! $this->is_valid_request('wwj_zdguide_test_connection')) {
 			return;
 		}
 
@@ -159,7 +159,7 @@ class Sync_Handler
 	 */
 	public function handle_sync_categories(): void
 	{
-		if (! isset($_GET['wwj_zdguide_sync_categories']) || ! wp_verify_nonce($_GET['_wpnonce'], 'wwj_zdguide_sync_categories')) {
+		if (! $this->is_valid_request('wwj_zdguide_sync_categories')) {
 			return;
 		}
 
@@ -256,7 +256,7 @@ class Sync_Handler
 	 */
 	public function handle_sync_sections(): void
 	{
-		if (! isset($_GET['wwj_zdguide_sync_sections']) || ! wp_verify_nonce($_GET['_wpnonce'], 'wwj_zdguide_sync_sections')) {
+		if (! $this->is_valid_request('wwj_zdguide_sync_sections')) {
 			return;
 		}
 
@@ -370,7 +370,7 @@ class Sync_Handler
 	 */
 	public function handle_sync_articles(): void
 	{
-		if (! isset($_GET['wwj_zdguide_sync_articles']) || ! wp_verify_nonce($_GET['_wpnonce'], 'wwj_zdguide_sync_articles')) {
+		if (! $this->is_valid_request('wwj_zdguide_sync_articles')) {
 			return;
 		}
 
@@ -475,6 +475,26 @@ class Sync_Handler
 		);
 	}
 
+	/**
+	 * Check if the current admin request is valid and verified.
+	 *
+	 * @param string $action The action name to check for in the request.
+	 * @return bool True if the request is valid, false otherwise.
+	 */
+	private function is_valid_request(string $action): bool
+	{
+		if (! isset($_GET[$action])) {
+			return false;
+		}
+
+		$nonce = isset($_GET['_wpnonce']) ? wp_unslash(sanitize_text_field($_GET['_wpnonce'])) : '';
+
+		if (! wp_verify_nonce($nonce, $action)) {
+			return false;
+		}
+
+		return true;
+	}
 	/**
 	 * Retrieve a term by meta value with simple caching.
 	 *
