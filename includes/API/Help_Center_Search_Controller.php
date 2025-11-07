@@ -27,7 +27,7 @@ class Help_Center_Search_Controller extends WP_REST_Controller
 	 */
 	public function __construct()
 	{
-		$this->namespace = 'wwj-zdguide/v1';
+		$this->namespace = 'zd-guide/v1';
 		$this->rest_base = 'search';
 
 		add_action('rest_api_init', array($this, 'register_routes'));
@@ -66,20 +66,20 @@ class Help_Center_Search_Controller extends WP_REST_Controller
 		$params['context']['default'] = 'view';
 
 		$params['q'] = array(
-			'description' => __('Search query string.', 'wwj-zdguide'),
+			'description' => __('Search query string.', 'zd-guide'),
 			'type'        => 'string',
 			'required'    => false,
 		);
 
 		$params['per_page'] = array(
-			'description'      => __('Number of results to return.', 'wwj-zdguide'),
+			'description'      => __('Number of results to return.', 'zd-guide'),
 			'type'             => 'integer',
 			'default'          => 5,
 			'sanitize_callback' => 'absint',
 		);
 
 		$params['show_excerpt'] = array(
-			'description'      => __('Whether to include excerpts in the response.', 'wwj-zdguide'),
+			'description'      => __('Whether to include excerpts in the response.', 'zd-guide'),
 			'type'             => 'boolean',
 			'default'          => true,
 			'sanitize_callback' => array($this, 'sanitize_boolean_param'),

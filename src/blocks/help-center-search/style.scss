@@ -1,8 +1,8 @@
-.wwj-zdguide-help-center-search {
+.zd-guide-help-center-search {
 	position: relative;
 }
 
-.wwj-zdguide-help-center-search .wwj-zdguide-search-results {
+.zd-guide-help-center-search .zd-guide-search-results {
 	margin-top: 1rem;
 	border-top: 1px solid rgba(15, 23, 42, 0.08);
 	padding-top: 1rem;
@@ -10,17 +10,17 @@
 	color: currentColor;
 }
 
-.wwj-zdguide-help-center-search .wwj-zdguide-search-results[hidden] {
+.zd-guide-help-center-search .zd-guide-search-results[hidden] {
 	display: none;
 }
 
-.wwj-zdguide-help-center-search .wwj-zdguide-search__status {
+.zd-guide-help-center-search .zd-guide-search__status {
 	margin: 0;
 	font-style: italic;
 	opacity: 0.85;
 }
 
-.wwj-zdguide-help-center-search .wwj-zdguide-search__list {
+.zd-guide-help-center-search .zd-guide-search__list {
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -30,29 +30,29 @@
 }
 
 
-.wwj-zdguide-help-center-search .wwj-zdguide-search__item {
+.zd-guide-help-center-search .zd-guide-search__item {
 	padding-bottom: 1rem;
 	border-bottom: 1px solid rgba(15, 23, 42, 0.08);
 }
 
-.wwj-zdguide-help-center-search .wwj-zdguide-search__item:last-child {
+.zd-guide-help-center-search .zd-guide-search__item:last-child {
 	border-bottom: none;
 	padding-bottom: 0;
 }
 
-.wwj-zdguide-help-center-search .wwj-zdguide-search__title {
+.zd-guide-help-center-search .zd-guide-search__title {
 	margin: 0 0 0.35rem;
 	font-weight: 600;
 	font-size: 1.1rem;
 }
 
-.wwj-zdguide-help-center-search .wwj-zdguide-search__excerpt {
+.zd-guide-help-center-search .zd-guide-search__excerpt {
 	margin: 0 0 0.5rem;
 	line-height: 1.6;
 	opacity: 0.85;
 }
 
-.wwj-zdguide-help-center-search .wwj-zdguide-search__link {
+.zd-guide-help-center-search .zd-guide-search__link {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.35rem;
@@ -61,12 +61,12 @@
 	text-decoration: none;
 }
 
-.wwj-zdguide-help-center-search .wwj-zdguide-search__link:hover,
-.wwj-zdguide-help-center-search .wwj-zdguide-search__link:focus {
+.zd-guide-help-center-search .zd-guide-search__link:hover,
+.zd-guide-help-center-search .zd-guide-search__link:focus {
 	text-decoration: underline;
 }
 
-.wwj-zdguide-help-center-search.is-loading .wwj-zdguide-search-submit {
+.zd-guide-help-center-search.is-loading .zd-guide-search-submit {
 	pointer-events: none;
 	opacity: 0.75;
 }

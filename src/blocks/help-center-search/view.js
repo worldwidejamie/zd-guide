@@ -2,7 +2,7 @@ import domReady from '@wordpress/dom-ready';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 
-const DEFAULT_ENDPOINT = '/wwj-zdguide/v1/search';
+const DEFAULT_ENDPOINT = '/zd-guide/v1/search';
 const DEBOUNCE_DELAY = 300;
 
 const debounce = (callback, delay = DEBOUNCE_DELAY) => {
@@ -19,7 +19,7 @@ const debounce = (callback, delay = DEBOUNCE_DELAY) => {
 const renderStatus = (container, message) => {
 	container.innerHTML = '';
 	const paragraph = document.createElement('p');
-	paragraph.className = 'wwj-zdguide-search__status';
+	paragraph.className = 'zd-guide-search__status';
 	paragraph.textContent = message;
 	container.appendChild(paragraph);
 };
@@ -32,27 +32,27 @@ const renderResults = (container, items, showExcerpt, openLabel) => {
 	}
 
 	const list = document.createElement('ul');
-	list.className = 'wwj-zdguide-search__list';
+	list.className = 'zd-guide-search__list';
 
 	items.forEach((item) => {
 		const listItem = document.createElement('li');
-		listItem.className = 'wwj-zdguide-search__item';
+		listItem.className = 'zd-guide-search__item';
 
 		const title = document.createElement('p');
-		title.className = 'wwj-zdguide-search__title';
+		title.className = 'zd-guide-search__title';
 		title.textContent = item.title ?? '';
 		listItem.appendChild(title);
 
 		if (showExcerpt && item.excerpt) {
 			const excerpt = document.createElement('p');
-			excerpt.className = 'wwj-zdguide-search__excerpt';
+			excerpt.className = 'zd-guide-search__excerpt';
 			excerpt.textContent = item.excerpt;
 			listItem.appendChild(excerpt);
 		}
 
 		if (item.url) {
 			const link = document.createElement('a');
-			link.className = 'wwj-zdguide-search__link';
+			link.className = 'zd-guide-search__link';
 			link.href = item.url;
 			link.rel = 'noopener noreferrer';
 			link.target = '_blank';
@@ -74,7 +74,7 @@ const initSearchBlock = (root) => {
 
 	const form = root; // Root element is the form itself.
 	const input = root.querySelector('.wp-block-search__input');
-	const resultsContainer = root.querySelector('.wwj-zdguide-search-results');
+	const resultsContainer = root.querySelector('.zd-guide-search-results');
 
 	if (! form || ! input || ! resultsContainer) {
 		return;
@@ -165,7 +165,7 @@ const initSearchBlock = (root) => {
 };
 
 const initializeAllBlocks = () => {
-	document.querySelectorAll('.wp-block-wwj-zdguide-help-center-search').forEach((block) => {
+	document.querySelectorAll('.wp-block-zd-guide-help-center-search').forEach((block) => {
 		initSearchBlock(block);
 	});
 };

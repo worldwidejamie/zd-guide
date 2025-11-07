@@ -1,5 +1,5 @@
 {
-  "name": "wwj-zdguide",
+  "name": "zd-guide",
   "version": "0.1.0",
   "description": "Connects to the Zendesk Guide API to build a help center in WordPress",
   "author": "Jamie Smith",

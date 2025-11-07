@@ -12,7 +12,7 @@ if (! defined('ABSPATH')) {
 }
 
 wp_enqueue_style(
-	'wwj-zdguide-taxonomy-template',
+	'zd-guide-taxonomy-template',
 	WWJ_ZDGUIDE_PLUGIN_URL . 'assets/css/taxonomy-template.css',
 	array(),
 	WWJ_ZDGUIDE_VERSION
@@ -30,13 +30,13 @@ if (! ($term instanceof WP_Term) || ! in_array($term->taxonomy, array('zd_catego
 
 $term_description = term_description($term);
 ?>
-<main id="primary" class="wwj-zdguide-template" aria-labelledby="wwj-zdguide-term-title">
-	<div class="wwj-zdguide-template__header">
-		<h1 id="wwj-zdguide-term-title" class="wwj-zdguide-template__title">
+<main id="primary" class="zd-guide-template" aria-labelledby="zd-guide-term-title">
+	<div class="zd-guide-template__header">
+		<h1 id="zd-guide-term-title" class="zd-guide-template__title">
 			<?php echo esc_html(single_term_title('', false)); ?>
 		</h1>
 		<?php if (! empty($term_description)) : ?>
-			<div class="wwj-zdguide-template__description">
+			<div class="zd-guide-template__description">
 				<?php echo wp_kses_post($term_description); ?>
 			</div>
 		<?php endif; ?>
@@ -69,11 +69,11 @@ $term_description = term_description($term);
 		}
 		?>
 
-		<section class="wwj-zdguide-template__section" aria-label="<?php esc_attr_e('Sections', 'wwj-zdguide'); ?>">
-			<h2 class="wwj-zdguide-template__section-title"><?php esc_html_e('Sections', 'wwj-zdguide'); ?></h2>
+		<section class="zd-guide-template__section" aria-label="<?php esc_attr_e('Sections', 'zd-guide'); ?>">
+			<h2 class="zd-guide-template__section-title"><?php esc_html_e('Sections', 'zd-guide'); ?></h2>
 
 			<?php if (! empty($sections)) : ?>
-				<ul class="wwj-zdguide-taxonomy-list">
+				<ul class="zd-guide-taxonomy-list">
 					<?php foreach ($sections as $section_term) :
 						$link = get_term_link($section_term);
 						if (is_wp_error($link)) {
@@ -81,18 +81,18 @@ $term_description = term_description($term);
 						}
 						$section_description = trim(wp_strip_all_tags($section_term->description));
 					?>
-						<li class="wwj-zdguide-taxonomy-item">
-							<div class="wwj-zdguide-taxonomy-header">
-								<a class="wwj-zdguide-taxonomy-name" href="<?php echo esc_url($link); ?>">
+						<li class="zd-guide-taxonomy-item">
+							<div class="zd-guide-taxonomy-header">
+								<a class="zd-guide-taxonomy-name" href="<?php echo esc_url($link); ?>">
 									<?php echo esc_html($section_term->name); ?>
 								</a>
-								<span class="wwj-zdguide-taxonomy-count">
+								<span class="zd-guide-taxonomy-count">
 									<?php echo esc_html(number_format_i18n($section_term->count)); ?>
 								</span>
 							</div>
 
 							<?php if (! empty($section_description)) : ?>
-								<p class="wwj-zdguide-taxonomy-description">
+								<p class="zd-guide-taxonomy-description">
 									<?php echo esc_html($section_description); ?>
 								</p>
 							<?php endif; ?>
@@ -100,8 +100,8 @@ $term_description = term_description($term);
 					<?php endforeach; ?>
 				</ul>
 			<?php else : ?>
-				<p class="wwj-zdguide-template__empty">
-					<?php esc_html_e('No sections have been synced for this category yet.', 'wwj-zdguide'); ?>
+				<p class="zd-guide-template__empty">
+					<?php esc_html_e('No sections have been synced for this category yet.', 'zd-guide'); ?>
 				</p>
 			<?php endif; ?>
 		</section>
@@ -126,31 +126,31 @@ $term_description = term_description($term);
 		}
 		?>
 
-		<section class="wwj-zdguide-template__section" aria-label="<?php esc_attr_e('Articles', 'wwj-zdguide'); ?>">
-			<h2 class="wwj-zdguide-template__section-title"><?php esc_html_e('Articles', 'wwj-zdguide'); ?></h2>
+		<section class="zd-guide-template__section" aria-label="<?php esc_attr_e('Articles', 'zd-guide'); ?>">
+			<h2 class="zd-guide-template__section-title"><?php esc_html_e('Articles', 'zd-guide'); ?></h2>
 
 			<?php if (! empty($articles)) : ?>
-				<ul class="wwj-zdguide-taxonomy-list">
+				<ul class="zd-guide-taxonomy-list">
 					<?php foreach ($articles as $article_post) :
 						$article_link   = get_permalink($article_post);
 						$article_title  = get_the_title($article_post);
 						$article_excerpt = trim(wp_strip_all_tags(get_the_excerpt($article_post)));
 					?>
-						<li class="wwj-zdguide-taxonomy-item">
-							<div class="wwj-zdguide-taxonomy-header">
-								<a class="wwj-zdguide-taxonomy-name" href="<?php echo esc_url($article_link); ?>">
+						<li class="zd-guide-taxonomy-item">
+							<div class="zd-guide-taxonomy-header">
+								<a class="zd-guide-taxonomy-name" href="<?php echo esc_url($article_link); ?>">
 									<?php echo esc_html($article_title); ?>
 								</a>
 							</div>
 							<?php if (! empty($article_excerpt)) : ?>
-								<p class="wwj-zdguide-taxonomy-description"><?php echo esc_html($article_excerpt); ?></p>
+								<p class="zd-guide-taxonomy-description"><?php echo esc_html($article_excerpt); ?></p>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
 				</ul>
 			<?php else : ?>
-				<p class="wwj-zdguide-template__empty">
-					<?php esc_html_e('No articles are assigned to this section yet.', 'wwj-zdguide'); ?>
+				<p class="zd-guide-template__empty">
+					<?php esc_html_e('No articles are assigned to this section yet.', 'zd-guide'); ?>
 				</p>
 			<?php endif; ?>
 		</section>

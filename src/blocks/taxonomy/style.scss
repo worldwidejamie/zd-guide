@@ -1,8 +1,8 @@
-.wwj-zdguide-taxonomy-block {
+.zd-guide-taxonomy-block {
 	width: 100%;
 }
 
-.wwj-zdguide-taxonomy-list {
+.zd-guide-taxonomy-list {
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -11,7 +11,7 @@
 	gap: 1rem;
 }
 
-.wwj-zdguide-taxonomy-item {
+.zd-guide-taxonomy-item {
 	flex: 1 1 min(280px, 100%);
 	display: flex;
 	flex-direction: column;
@@ -23,31 +23,31 @@
 	transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
-.wwj-zdguide-taxonomy-item:hover {
+.zd-guide-taxonomy-item:hover {
 	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
 	transform: translateY(-2px);
 }
 
-.wwj-zdguide-taxonomy-header {
+.zd-guide-taxonomy-header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 0.75rem;
 }
 
-.wwj-zdguide-taxonomy-name {
+.zd-guide-taxonomy-name {
 	font-weight: 700;
 	font-size: 1.05rem;
 	color: currentColor;
 	text-decoration: none;
 }
 
-.wwj-zdguide-taxonomy-name:hover,
-.wwj-zdguide-taxonomy-name:focus {
+.zd-guide-taxonomy-name:hover,
+.zd-guide-taxonomy-name:focus {
 	color: var(--wp--style--color--link, currentColor);
 }
 
-.wwj-zdguide-taxonomy-count {
+.zd-guide-taxonomy-count {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -59,7 +59,7 @@
 	font-weight: 600;
 }
 
-.wwj-zdguide-taxonomy-description {
+.zd-guide-taxonomy-description {
 	margin: 0;
 	font-size: 0.95rem;
 	line-height: 1.5;
@@ -67,7 +67,7 @@
 	opacity: 0.85;
 }
 
-.wwj-zdguide-taxonomy-empty {
+.zd-guide-taxonomy-empty {
 	margin: 0;
 	padding: 1rem;
 	border: 1px dashed #cbd5e0;

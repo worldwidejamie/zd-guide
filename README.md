@@ -67,7 +67,7 @@ npm run lint:css
 ### Project Structure
 
 ```
-wwj-zdguide/
+zd-guide/
 ├── src/                    # Source files
 │   └── blocks/            # Block development
 │       └── article/       # Article block

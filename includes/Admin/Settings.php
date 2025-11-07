@@ -49,8 +49,8 @@ class Settings
 	public function add_admin_menu(): void
 	{
 		add_options_page(
-			__('Zendesk Guide Settings', 'wwj-zdguide'),
-			__('Zendesk Guide', 'wwj-zdguide'),
+			__('Zendesk Guide Settings', 'zd-guide'),
+			__('Zendesk Guide', 'zd-guide'),
 			'manage_options',
 			$this->page_slug,
 			array($this, 'render_settings_page')
@@ -75,14 +75,14 @@ class Settings
 
 		add_settings_section(
 			'wwj_zdguide_settings_section',
-			__('API Settings', 'wwj-zdguide'),
+			__('API Settings', 'zd-guide'),
 			array($this, 'render_settings_section'),
 			$this->page_slug
 		);
 
 		add_settings_field(
 			'wwj_zdguide_subdomain',
-			__('Zendesk Subdomain', 'wwj-zdguide'),
+			__('Zendesk Subdomain', 'zd-guide'),
 			array($this, 'render_subdomain_field'),
 			$this->page_slug,
 			'wwj_zdguide_settings_section'
@@ -90,7 +90,7 @@ class Settings
 
 		add_settings_field(
 			'wwj_zdguide_email',
-			__('Zendesk Email', 'wwj-zdguide'),
+			__('Zendesk Email', 'zd-guide'),
 			array($this, 'render_email_field'),
 			$this->page_slug,
 			'wwj_zdguide_settings_section'
@@ -98,7 +98,7 @@ class Settings
 
 		add_settings_field(
 			'wwj_zdguide_api_token',
-			__('Zendesk API Token', 'wwj-zdguide'),
+			__('Zendesk API Token', 'zd-guide'),
 			array($this, 'render_api_token_field'),
 			$this->page_slug,
 			'wwj_zdguide_settings_section'
@@ -137,7 +137,7 @@ class Settings
 	 */
 	public function render_settings_section(): void
 	{
-		echo '<p>' . esc_html__('Enter your Zendesk API credentials below.', 'wwj-zdguide') . '</p>';
+		echo '<p>' . esc_html__('Enter your Zendesk API credentials below.', 'zd-guide') . '</p>';
 	}
 
 	/**
@@ -156,7 +156,7 @@ class Settings
 			value="<?php echo esc_attr($value); ?>"
 			class="regular-text">
 		<p class="description">
-			<?php esc_html_e('Your Zendesk subdomain (e.g., "yourcompany" from yourcompany.zendesk.com)', 'wwj-zdguide'); ?>
+			<?php esc_html_e('Your Zendesk subdomain (e.g., "yourcompany" from yourcompany.zendesk.com)', 'zd-guide'); ?>
 		</p>
 	<?php
 	}
@@ -177,7 +177,7 @@ class Settings
 			value="<?php echo esc_attr($value); ?>"
 			class="regular-text">
 		<p class="description">
-			<?php esc_html_e('Your Zendesk admin email address', 'wwj-zdguide'); ?>
+			<?php esc_html_e('Your Zendesk admin email address', 'zd-guide'); ?>
 		</p>
 	<?php
 	}
@@ -198,7 +198,7 @@ class Settings
 			value="<?php echo esc_attr($value); ?>"
 			class="regular-text">
 		<p class="description">
-			<?php esc_html_e('Your Zendesk API token', 'wwj-zdguide'); ?>
+			<?php esc_html_e('Your Zendesk API token', 'zd-guide'); ?>
 		</p>
 	<?php
 	}
@@ -227,28 +227,28 @@ class Settings
 
 			<hr>
 
-			<h2><?php esc_html_e('Manual Sync', 'wwj-zdguide'); ?></h2>
-			<p><?php esc_html_e('Click the buttons below to manually sync data from Zendesk.', 'wwj-zdguide'); ?></p>
+			<h2><?php esc_html_e('Manual Sync', 'zd-guide'); ?></h2>
+			<p><?php esc_html_e('Click the buttons below to manually sync data from Zendesk.', 'zd-guide'); ?></p>
 
 			<p>
 				<a href="<?php echo esc_url(wp_nonce_url(admin_url('options-general.php?page=' . $this->page_slug . '&wwj_zdguide_test_connection=1'), 'wwj_zdguide_test_connection')); ?>"
 					class="button button-secondary">
-					<?php esc_html_e('Test Connection', 'wwj-zdguide'); ?>
+					<?php esc_html_e('Test Connection', 'zd-guide'); ?>
 				</a>
 
 				<a href="<?php echo esc_url(wp_nonce_url(admin_url('options-general.php?page=' . $this->page_slug . '&wwj_zdguide_sync_categories=1'), 'wwj_zdguide_sync_categories')); ?>"
 					class="button button-primary">
-					<?php esc_html_e('Sync Categories', 'wwj-zdguide'); ?>
+					<?php esc_html_e('Sync Categories', 'zd-guide'); ?>
 				</a>
 
 				<a href="<?php echo esc_url(wp_nonce_url(admin_url('options-general.php?page=' . $this->page_slug . '&wwj_zdguide_sync_sections=1'), 'wwj_zdguide_sync_sections')); ?>"
 					class="button button-primary">
-					<?php esc_html_e('Sync Sections', 'wwj-zdguide'); ?>
+					<?php esc_html_e('Sync Sections', 'zd-guide'); ?>
 				</a>
 
 				<a href="<?php echo esc_url(wp_nonce_url(admin_url('options-general.php?page=' . $this->page_slug . '&wwj_zdguide_sync_articles=1'), 'wwj_zdguide_sync_articles')); ?>"
 					class="button button-primary">
-					<?php esc_html_e('Sync Articles', 'wwj-zdguide'); ?>
+					<?php esc_html_e('Sync Articles', 'zd-guide'); ?>
 				</a>
 			</p>
 		</div>

@@ -1,7 +1,7 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "wwj-zdguide/taxonomy",
+  "name": "zd-guide/taxonomy",
   "version": "0.1.0",
   "title": "Zendesk Taxonomy Index",
   "category": "widgets",
@@ -24,7 +24,7 @@
       "textTransform": true
     }
   },
-  "textdomain": "wwj-zdguide",
+  "textdomain": "zd-guide",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",

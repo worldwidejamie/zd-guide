@@ -14,12 +14,12 @@ import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 import './editor.scss';
 
-const SEARCH_ENDPOINT = '/wwj-zdguide/v1/search';
+const SEARCH_ENDPOINT = '/zd-guide/v1/search';
 
 export default function Edit({ attributes, setAttributes }) {
 	const { placeholder, resultsPerPage, showExcerpt } = attributes;
 	const blockProps = useBlockProps({
-		className: 'wwj-zdguide-help-center-search',
+		className: 'zd-guide-help-center-search',
 	});
 
 	const [query, setQuery] = useState('');
@@ -52,7 +52,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 					setResults(Array.isArray(response?.results) ? response.results : []);
 				} catch (apiError) {
-					setError(apiError?.message || __('Unable to complete search request.', 'wwj-zdguide'));
+					setError(apiError?.message || __('Unable to complete search request.', 'zd-guide'));
 					setResults([]);
 				} finally {
 					setIsLoading(false);
@@ -72,21 +72,21 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={__('Search Settings', 'wwj-zdguide')} initialOpen>
+				<PanelBody title={__('Search Settings', 'zd-guide')} initialOpen>
 					<TextControl
-						label={__('Placeholder text', 'wwj-zdguide')}
+						label={__('Placeholder text', 'zd-guide')}
 						value={placeholder}
 						onChange={(value) => setAttributes({ placeholder: value })}
 					/>
 					<RangeControl
-						label={__('Results per search', 'wwj-zdguide')}
+						label={__('Results per search', 'zd-guide')}
 						value={resultsPerPage}
 						min={1}
 						max={10}
 						onChange={(value) => setAttributes({ resultsPerPage: value })}
 					/>
 					<ToggleControl
-						label={__('Show excerpts in results', 'wwj-zdguide')}
+						label={__('Show excerpts in results', 'zd-guide')}
 						checked={showExcerpt}
 						onChange={(value) => setAttributes({ showExcerpt: value })}
 					/>
@@ -94,11 +94,11 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 
 			<div {...blockProps}>
-				<label htmlFor="wwj-zdguide-help-center-search-input" className="screen-reader-text">
-					{__('Search Zendesk articles', 'wwj-zdguide')}
+				<label htmlFor="zd-guide-help-center-search-input" className="screen-reader-text">
+					{__('Search Zendesk articles', 'zd-guide')}
 				</label>
 				<TextControl
-					id="wwj-zdguide-help-center-search-input"
+					id="zd-guide-help-center-search-input"
 					placeholder={placeholder}
 					value={query}
 					type="search"
@@ -106,9 +106,9 @@ export default function Edit({ attributes, setAttributes }) {
 				/>
 
 				{isLoading && (
-					<div className="wwj-zdguide-search__loading">
+					<div className="zd-guide-search__loading">
 						<Spinner />
-						<span>{__('Searching...', 'wwj-zdguide')}</span>
+						<span>{__('Searching...', 'zd-guide')}</span>
 					</div>
 				)}
 
@@ -119,31 +119,31 @@ export default function Edit({ attributes, setAttributes }) {
 				)}
 
 				{! query && ! isLoading && ! error && (
-					<div className="wwj-zdguide-search__empty-state">
-						<p>{__('Start typing to search your synced Zendesk articles.', 'wwj-zdguide')}</p>
+					<div className="zd-guide-search__empty-state">
+						<p>{__('Start typing to search your synced Zendesk articles.', 'zd-guide')}</p>
 						<Button variant="secondary" onClick={() => onSearchChange('')}
 							disabled>
-							{__('Awaiting query', 'wwj-zdguide')}
+							{__('Awaiting query', 'zd-guide')}
 						</Button>
 					</div>
 				)}
 
 				{query && ! isLoading && ! error && (
-					<ul className="wwj-zdguide-search__results">
+					<ul className="zd-guide-search__results">
 						{results.length === 0 && (
-							<li className="wwj-zdguide-search__result--empty">
-								{__('No results found for your query.', 'wwj-zdguide')}
+							<li className="zd-guide-search__result--empty">
+								{__('No results found for your query.', 'zd-guide')}
 							</li>
 						)}
 						{results.map((result) => (
-							<li key={result.id} className="wwj-zdguide-search__result">
+							<li key={result.id} className="zd-guide-search__result">
 								<strong>{result.title}</strong>
 								{showExcerpt && result.excerpt && (
 									<p>{result.excerpt}</p>
 								)}
 								{result.url && (
 									<a href={result.url} target="_blank" rel="noopener noreferrer">
-										{__('Open article', 'wwj-zdguide')}
+										{__('Open article', 'zd-guide')}
 									</a>
 								)}
 							</li>

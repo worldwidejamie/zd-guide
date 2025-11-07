@@ -84,17 +84,17 @@ class Category extends Base_Taxonomy
 	public function register(): void
 	{
 		$labels = array(
-			'name'              => _x('Categories', 'taxonomy general name', 'wwj-zdguide'),
-			'singular_name'     => _x('Category', 'taxonomy singular name', 'wwj-zdguide'),
-			'search_items'      => __('Search Categories', 'wwj-zdguide'),
-			'all_items'         => __('All Categories', 'wwj-zdguide'),
-			'parent_item'       => __('Parent Category', 'wwj-zdguide'),
-			'parent_item_colon' => __('Parent Category:', 'wwj-zdguide'),
-			'edit_item'         => __('Edit Category', 'wwj-zdguide'),
-			'update_item'       => __('Update Category', 'wwj-zdguide'),
-			'add_new_item'      => __('Add New Category', 'wwj-zdguide'),
-			'new_item_name'     => __('New Category Name', 'wwj-zdguide'),
-			'menu_name'         => __('Categories', 'wwj-zdguide'),
+			'name'              => _x('Categories', 'taxonomy general name', 'zd-guide'),
+			'singular_name'     => _x('Category', 'taxonomy singular name', 'zd-guide'),
+			'search_items'      => __('Search Categories', 'zd-guide'),
+			'all_items'         => __('All Categories', 'zd-guide'),
+			'parent_item'       => __('Parent Category', 'zd-guide'),
+			'parent_item_colon' => __('Parent Category:', 'zd-guide'),
+			'edit_item'         => __('Edit Category', 'zd-guide'),
+			'update_item'       => __('Update Category', 'zd-guide'),
+			'add_new_item'      => __('Add New Category', 'zd-guide'),
+			'new_item_name'     => __('New Category Name', 'zd-guide'),
+			'menu_name'         => __('Categories', 'zd-guide'),
 		);
 
 		$args = array(
@@ -106,7 +106,7 @@ class Category extends Base_Taxonomy
 			'rewrite'           => array('slug' => 'help-center/categories'),
 			'show_in_rest'      => true,
 			'rest_base'         => 'zd-categories',
-			'rest_namespace'    => 'wwj-zdguide/v1',
+			'rest_namespace'    => 'zd-guide/v1',
 		);
 
 		register_taxonomy($this->taxonomy, $this->post_types, $args);
@@ -121,14 +121,14 @@ class Category extends Base_Taxonomy
 		$zendesk_cat_id = get_term_meta($term->term_id, 'zendesk_category_id', true);
 		$zendesk_cat_id = $zendesk_cat_id !== '' ? $zendesk_cat_id : '—';
 ?>
-		<div class="wwj-zdguide-admin-panel">
-			<h2><?php esc_html_e('Reference IDs', 'wwj-zdguide'); ?></h2>
-			<div class="wwj-zdguide-admin-row">
-				<strong><?php esc_html_e('WordPress Term ID', 'wwj-zdguide'); ?></strong>
+		<div class="zd-guide-admin-panel">
+			<h2><?php esc_html_e('Reference IDs', 'zd-guide'); ?></h2>
+			<div class="zd-guide-admin-row">
+				<strong><?php esc_html_e('WordPress Term ID', 'zd-guide'); ?></strong>
 				<span><?php echo esc_html((string) $term->term_id); ?></span>
 			</div>
-			<div class="wwj-zdguide-admin-row">
-				<strong><?php esc_html_e('Zendesk Category ID', 'wwj-zdguide'); ?></strong>
+			<div class="zd-guide-admin-row">
+				<strong><?php esc_html_e('Zendesk Category ID', 'zd-guide'); ?></strong>
 				<span><?php echo esc_html((string) $zendesk_cat_id); ?></span>
 			</div>
 		</div>
@@ -162,17 +162,17 @@ class Section extends Base_Taxonomy
 	public function register(): void
 	{
 		$labels = array(
-			'name'              => _x('Sections', 'taxonomy general name', 'wwj-zdguide'),
-			'singular_name'     => _x('Section', 'taxonomy singular name', 'wwj-zdguide'),
-			'search_items'      => __('Search Sections', 'wwj-zdguide'),
-			'all_items'         => __('All Sections', 'wwj-zdguide'),
-			'parent_item'       => __('Parent Section', 'wwj-zdguide'),
-			'parent_item_colon' => __('Parent Section:', 'wwj-zdguide'),
-			'edit_item'         => __('Edit Section', 'wwj-zdguide'),
-			'update_item'       => __('Update Section', 'wwj-zdguide'),
-			'add_new_item'      => __('Add New Section', 'wwj-zdguide'),
-			'new_item_name'     => __('New Section Name', 'wwj-zdguide'),
-			'menu_name'         => __('Sections', 'wwj-zdguide'),
+			'name'              => _x('Sections', 'taxonomy general name', 'zd-guide'),
+			'singular_name'     => _x('Section', 'taxonomy singular name', 'zd-guide'),
+			'search_items'      => __('Search Sections', 'zd-guide'),
+			'all_items'         => __('All Sections', 'zd-guide'),
+			'parent_item'       => __('Parent Section', 'zd-guide'),
+			'parent_item_colon' => __('Parent Section:', 'zd-guide'),
+			'edit_item'         => __('Edit Section', 'zd-guide'),
+			'update_item'       => __('Update Section', 'zd-guide'),
+			'add_new_item'      => __('Add New Section', 'zd-guide'),
+			'new_item_name'     => __('New Section Name', 'zd-guide'),
+			'menu_name'         => __('Sections', 'zd-guide'),
 		);
 
 		$args = array(
@@ -184,7 +184,7 @@ class Section extends Base_Taxonomy
 			'rewrite'           => array('slug' => 'help-center/sections'),
 			'show_in_rest'      => true,
 			'rest_base'         => 'zd-sections',
-			'rest_namespace'    => 'wwj-zdguide/v1',
+			'rest_namespace'    => 'zd-guide/v1',
 		);
 
 		register_taxonomy($this->taxonomy, $this->post_types, $args);
@@ -203,23 +203,23 @@ class Section extends Base_Taxonomy
 		$parent_zd_id   = $parent_term instanceof \WP_Term ? get_term_meta($parent_term->term_id, 'zendesk_category_id', true) : '';
 		$parent_zd_id   = $parent_zd_id !== '' ? $parent_zd_id : '—';
 	?>
-		<div class="wwj-zdguide-admin-panel">
-			<h2><?php esc_html_e('Reference IDs', 'wwj-zdguide'); ?></h2>
-			<div class="wwj-zdguide-admin-row">
-				<strong><?php esc_html_e('WordPress Term ID', 'wwj-zdguide'); ?></strong>
+		<div class="zd-guide-admin-panel">
+			<h2><?php esc_html_e('Reference IDs', 'zd-guide'); ?></h2>
+			<div class="zd-guide-admin-row">
+				<strong><?php esc_html_e('WordPress Term ID', 'zd-guide'); ?></strong>
 				<span><?php echo esc_html((string) $term->term_id); ?></span>
 			</div>
-			<div class="wwj-zdguide-admin-row">
-				<strong><?php esc_html_e('Zendesk Section ID', 'wwj-zdguide'); ?></strong>
+			<div class="zd-guide-admin-row">
+				<strong><?php esc_html_e('Zendesk Section ID', 'zd-guide'); ?></strong>
 				<span><?php echo esc_html((string) $zendesk_sec_id); ?></span>
 			</div>
 			<?php if ($parent_term instanceof \WP_Term) : ?>
-				<div class="wwj-zdguide-admin-row">
-					<strong><?php esc_html_e('Parent Category Term ID', 'wwj-zdguide'); ?></strong>
+				<div class="zd-guide-admin-row">
+					<strong><?php esc_html_e('Parent Category Term ID', 'zd-guide'); ?></strong>
 					<span><?php echo esc_html((string) $parent_term->term_id); ?></span>
 				</div>
-				<div class="wwj-zdguide-admin-row">
-					<strong><?php esc_html_e('Parent Zendesk Category ID', 'wwj-zdguide'); ?></strong>
+				<div class="zd-guide-admin-row">
+					<strong><?php esc_html_e('Parent Zendesk Category ID', 'zd-guide'); ?></strong>
 					<span><?php echo esc_html((string) $parent_zd_id); ?></span>
 				</div>
 			<?php endif; ?>

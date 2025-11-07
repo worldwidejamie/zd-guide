@@ -1,8 +1,8 @@
 /**
  * Frontend and editor styles for the article block.
  */
-.wp-block-wwj-zdguide-article {
-	.wwj-zdguide-article-block {
+.wp-block-zd-guide-article {
+	.zd-guide-article-block {
 		padding: 20px;
 		border: 1px solid #e0e0e0;
 		border-radius: 8px;
@@ -14,7 +14,7 @@
 		}
 	}
 
-	.wwj-zdguide-article-meta {
+	.zd-guide-article-meta {
 		display: flex;
 		gap: 10px;
 		margin-bottom: 12px;
@@ -29,18 +29,18 @@
 			text-transform: uppercase;
 		}
 
-		.wwj-zdguide-category {
+		.zd-guide-category {
 			background-color: #e3f2fd;
 			color: #1976d2;
 		}
 
-		.wwj-zdguide-section {
+		.zd-guide-section {
 			background-color: #f3e5f5;
 			color: #7b1fa2;
 		}
 	}
 
-	.wwj-zdguide-article-title {
+	.zd-guide-article-title {
 		margin: 0 0 12px;
 		font-size: 24px;
 		font-weight: 700;
@@ -57,7 +57,7 @@
 		}
 	}
 
-	.wwj-zdguide-article-excerpt {
+	.zd-guide-article-excerpt {
 		margin-bottom: 16px;
 		color: inherit;
 		opacity: 0.9;
@@ -65,7 +65,7 @@
 		line-height: 1.6;
 	}
 
-	.wwj-zdguide-read-more {
+	.zd-guide-read-more {
 		display: inline-block;
 		padding: 8px 16px;
 		color: var(--wp--style--color--background, #fff);

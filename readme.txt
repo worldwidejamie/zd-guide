@@ -17,7 +17,7 @@ If you\'ve tried to create a help center with the native Zendesk tools, you migh
 ZD Guide lets you import your articles, categories, and sections into WordPress allowing you to build a help center using the same flexible toolset you use to build your website.
 
 == Installation ==
-1. Upload the plugin files to the \"/wp-content/plugins/wwj-zdguide\" directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the \"/wp-content/plugins/zd-guide\" directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the \"Plugins\" screen in WordPress.
 3. Go to **Settings > Zendesk Guide** in WordPress admin and enter your Zendesk subdomain, admin email, and API token.
 4. Use the \"Sync\" buttons to import your content from Zendesk.

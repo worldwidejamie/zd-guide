@@ -40,7 +40,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 	// Convert articles to options for SelectControl
 	const articleOptions = [
-		{ value: 0, label: __('Select an article...', 'wwj-zdguide') },
+		{ value: 0, label: __('Select an article...', 'zd-guide') },
 		...(articles || []).map((article) => ({
 			value: article.id,
 			label: article.title.rendered,
@@ -50,21 +50,21 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<div {...blockProps}>
 			<InspectorControls>
-				<PanelBody title={__('Article Settings', 'wwj-zdguide')}>
+				<PanelBody title={__('Article Settings', 'zd-guide')}>
 					<SelectControl
-						label={__('Select Article', 'wwj-zdguide')}
+						label={__('Select Article', 'zd-guide')}
 						value={articleId}
 						options={articleOptions}
 						onChange={(value) => setAttributes({ articleId: parseInt(value, 10) })}
 						disabled={isLoading}
 					/>
 					<ToggleControl
-						label={__('Show Excerpt', 'wwj-zdguide')}
+						label={__('Show Excerpt', 'zd-guide')}
 						checked={showExcerpt}
 						onChange={(value) => setAttributes({ showExcerpt: value })}
 					/>
 					<ToggleControl
-						label={__('Show Meta Information', 'wwj-zdguide')}
+						label={__('Show Meta Information', 'zd-guide')}
 						checked={showMeta}
 						onChange={(value) => setAttributes({ showMeta: value })}
 					/>
@@ -74,21 +74,21 @@ export default function Edit({ attributes, setAttributes }) {
 			{isLoading && (
 				<Placeholder>
 					<Spinner />
-					<span>{__('Loading articles...', 'wwj-zdguide')}</span>
+					<span>{__('Loading articles...', 'zd-guide')}</span>
 				</Placeholder>
 			)}
 
 			{!isLoading && articleId === 0 && (
 				<Placeholder
 					icon="book-alt"
-					label={__('Zendesk Article', 'wwj-zdguide')}
-					instructions={__('Select an article from the block settings to display it here.', 'wwj-zdguide')}
+					label={__('Zendesk Article', 'zd-guide')}
+					instructions={__('Select an article from the block settings to display it here.', 'zd-guide')}
 				/>
 			)}
 
 			{!isLoading && articleId > 0 && (
 				<ServerSideRender
-					block="wwj-zdguide/article"
+					block="zd-guide/article"
 					attributes={attributes}
 				/>
 			)}

@@ -3,7 +3,7 @@ import fs from "fs-extra";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const pluginSlug = "wwj-zdguide";
+const pluginSlug = "zd-guide";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const distDir = path.join(__dirname, "../dist");
@@ -16,7 +16,7 @@ const includePatterns = [
   "templates/**/*.php",
   "languages/**/*",
   "assets/**/*",
-  "wwj-zdguide.php",
+  "zd-guide.php",
   "README.md",
   "LICENSE",
 ];

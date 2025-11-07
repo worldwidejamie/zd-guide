@@ -11,7 +11,7 @@
  * Author URI:        https://worldwidejamie.com/
  * License:           GPLv3
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.en.html
- * Text Domain:       wwj-zdguide
+ * Text Domain:       zd-guide
  *
  * @package Wwj_Zdguide
  */

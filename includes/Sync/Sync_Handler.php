@@ -129,7 +129,7 @@ class Sync_Handler
 
 		if (! $client) {
 			$this->add_notice(
-				__('Please fill in all API settings before testing the connection.', 'wwj-zdguide'),
+				__('Please fill in all API settings before testing the connection.', 'zd-guide'),
 				'error'
 			);
 			return;
@@ -141,7 +141,7 @@ class Sync_Handler
 			$this->add_notice(
 				sprintf(
 					/* translators: %s: error message */
-					__('API connection failed: %s', 'wwj-zdguide'),
+					__('API connection failed: %s', 'zd-guide'),
 					$result->get_error_message()
 				),
 				'error'
@@ -149,7 +149,7 @@ class Sync_Handler
 			return;
 		}
 
-		$this->add_notice(__('API connection successful!', 'wwj-zdguide'));
+		$this->add_notice(__('API connection successful!', 'zd-guide'));
 	}
 
 	/**
@@ -167,7 +167,7 @@ class Sync_Handler
 
 		if (! $client) {
 			$this->add_notice(
-				__('Please fill in all API settings before syncing categories.', 'wwj-zdguide'),
+				__('Please fill in all API settings before syncing categories.', 'zd-guide'),
 				'error'
 			);
 			return;
@@ -179,7 +179,7 @@ class Sync_Handler
 			$this->add_notice(
 				sprintf(
 					/* translators: %s: error message */
-					__('Failed to fetch categories: %s', 'wwj-zdguide'),
+					__('Failed to fetch categories: %s', 'zd-guide'),
 					$categories->get_error_message()
 				),
 				'error'
@@ -189,7 +189,7 @@ class Sync_Handler
 
 		if (empty($categories)) {
 			$this->add_notice(
-				__('No categories found in Zendesk.', 'wwj-zdguide'),
+				__('No categories found in Zendesk.', 'zd-guide'),
 				'warning'
 			);
 			return;
@@ -243,7 +243,7 @@ class Sync_Handler
 		$this->add_notice(
 			sprintf(
 				/* translators: %d: number of categories synced */
-				__('Successfully synced %d new categories.', 'wwj-zdguide'),
+				__('Successfully synced %d new categories.', 'zd-guide'),
 				$synced_count
 			)
 		);
@@ -264,7 +264,7 @@ class Sync_Handler
 
 		if (! $client) {
 			$this->add_notice(
-				__('Please fill in all API settings before syncing sections.', 'wwj-zdguide'),
+				__('Please fill in all API settings before syncing sections.', 'zd-guide'),
 				'error'
 			);
 			return;
@@ -274,7 +274,7 @@ class Sync_Handler
 
 		if (empty($category_ids)) {
 			$this->add_notice(
-				__('No categories to sync sections from. Please sync categories first.', 'wwj-zdguide'),
+				__('No categories to sync sections from. Please sync categories first.', 'zd-guide'),
 				'warning'
 			);
 			return;
@@ -290,7 +290,7 @@ class Sync_Handler
 
 		if (is_wp_error($categories) || empty($categories)) {
 			$this->add_notice(
-				__('No categories to sync sections from. Please sync categories first.', 'wwj-zdguide'),
+				__('No categories to sync sections from. Please sync categories first.', 'zd-guide'),
 				'warning'
 			);
 			return;
@@ -357,7 +357,7 @@ class Sync_Handler
 		$this->add_notice(
 			sprintf(
 				/* translators: %d: number of sections synced */
-				__('Successfully synced %d new sections.', 'wwj-zdguide'),
+				__('Successfully synced %d new sections.', 'zd-guide'),
 				$synced_count
 			)
 		);
@@ -378,7 +378,7 @@ class Sync_Handler
 
 		if (! $client) {
 			$this->add_notice(
-				__('Please fill in all API settings before syncing articles.', 'wwj-zdguide'),
+				__('Please fill in all API settings before syncing articles.', 'zd-guide'),
 				'error'
 			);
 			return;
@@ -388,7 +388,7 @@ class Sync_Handler
 
 		if (empty($section_ids)) {
 			$this->add_notice(
-				__('No sections to sync articles from. Please sync sections first.', 'wwj-zdguide'),
+				__('No sections to sync articles from. Please sync sections first.', 'zd-guide'),
 				'warning'
 			);
 			return;
@@ -404,7 +404,7 @@ class Sync_Handler
 
 		if (is_wp_error($sections) || empty($sections)) {
 			$this->add_notice(
-				__('No sections to sync articles from. Please sync sections first.', 'wwj-zdguide'),
+				__('No sections to sync articles from. Please sync sections first.', 'zd-guide'),
 				'warning'
 			);
 			return;
@@ -469,7 +469,7 @@ class Sync_Handler
 		$this->add_notice(
 			sprintf(
 				/* translators: %d: number of articles synced */
-				__('Successfully synced %d new articles.', 'wwj-zdguide'),
+				__('Successfully synced %d new articles.', 'zd-guide'),
 				$synced_count
 			)
 		);
