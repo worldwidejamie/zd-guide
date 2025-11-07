@@ -13,17 +13,17 @@ if (! defined('ABSPATH')) {
 	exit;
 }
 
-$allowed_taxonomies = array('zd_category', 'zd_section');
-$taxonomy           = isset($attributes['taxonomy']) && in_array($attributes['taxonomy'], $allowed_taxonomies, true)
+$wwj_zdguide_allowed_taxonomies = array('zd_category', 'zd_section');
+$wwj_zdguide_taxonomy           = isset($attributes['taxonomy']) && in_array($attributes['taxonomy'], $wwj_zdguide_allowed_taxonomies, true)
 	? $attributes['taxonomy']
 	: 'zd_category';
 
-$items_to_show    = isset($attributes['itemsToShow']) ? absint($attributes['itemsToShow']) : 6;
-$items_to_show    = $items_to_show > 0 ? min($items_to_show, 50) : 6;
-$show_counts      = ! empty($attributes['showCounts']);
-$show_descriptions = ! empty($attributes['showDescriptions']);
+$wwj_zdguide_items_to_show    = isset($attributes['itemsToShow']) ? absint($attributes['itemsToShow']) : 6;
+$wwj_zdguide_items_to_show    = $wwj_zdguide_items_to_show > 0 ? min($wwj_zdguide_items_to_show, 50) : 6;
+$wwj_zdguide_show_counts      = ! empty($attributes['showCounts']);
+$wwj_zdguide_show_descriptions = ! empty($attributes['showDescriptions']);
 
-$terms = get_terms(
+$wwj_zdguide_terms = get_terms(
 	array(
 		'taxonomy'   => $taxonomy,
 		'hide_empty' => false,
