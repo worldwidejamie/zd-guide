@@ -102,17 +102,15 @@ class Mapping_Repository
 	 */
 	public function get_term_id(string $taxonomy, int $zendesk_id): ?int
 	{
-		$sql = $this->wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-			sprintf(
-				'SELECT object_id FROM %s WHERE object_type = %%s AND taxonomy = %%s AND zendesk_id = %%d LIMIT 1',
-				$this->table_name
-			),
+		$sql = $this->wpdb->prepare(
+			'SELECT object_id FROM %i WHERE object_type = %s AND taxonomy = %s AND zendesk_id = %d LIMIT 1',
+			$this->table_name,
 			'term',
 			$taxonomy,
 			$zendesk_id
 		);
 
-		$term_id = $this->wpdb->get_var($sql);
+		$term_id = $this->wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 		return $term_id ? (int) $term_id : null;
 	}
@@ -124,16 +122,14 @@ class Mapping_Repository
 	 */
 	public function get_term_ids(string $taxonomy): array
 	{
-		$sql = $this->wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-			sprintf(
-				'SELECT object_id FROM %s WHERE object_type = %%s AND taxonomy = %%s',
-				$this->table_name
-			),
+		$sql = $this->wpdb->prepare(
+			'SELECT object_id FROM %i WHERE object_type = %s AND taxonomy = %s',
+			$this->table_name,
 			'term',
 			$taxonomy
 		);
 
-		$ids = $this->wpdb->get_col($sql);
+		$ids = $this->wpdb->get_col($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 		if (empty($ids)) {
 			return array();
@@ -164,16 +160,14 @@ class Mapping_Repository
 	 */
 	public function get_post_id(int $zendesk_id): ?int
 	{
-		$sql = $this->wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-			sprintf(
-				'SELECT object_id FROM %s WHERE object_type = %%s AND zendesk_id = %%d LIMIT 1',
-				$this->table_name
-			),
+		$sql = $this->wpdb->prepare(
+			'SELECT object_id FROM %i WHERE object_type = %s AND zendesk_id = %d LIMIT 1',
+			$this->table_name,
 			'post',
 			$zendesk_id
 		);
 
-		$post_id = $this->wpdb->get_var($sql);
+		$post_id = $this->wpdb->get_var($sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 		return $post_id ? (int) $post_id : null;
 	}
