@@ -2,7 +2,7 @@
 Contributors: worldwidejamie
 Tags: zendesk, guide, help center, support, customer experience
 Donate link: https://ko-fi.com/G2G2VK9I7
-Requires at least: 6.1
+Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 8.0
 Stable tag: 1.0
