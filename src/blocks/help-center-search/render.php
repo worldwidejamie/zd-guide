@@ -15,38 +15,38 @@ if (! defined('ABSPATH')) {
 	exit;
 }
 
-$placeholder  = isset($attributes['placeholder']) ? sanitize_text_field($attributes['placeholder']) : __('Search help articles', 'zd-guide');
-$show_excerpt = ! empty($attributes['showExcerpt']);
-$results_per  = isset($attributes['resultsPerPage']) ? max(1, min(absint($attributes['resultsPerPage']), 20)) : 5;
-$unique_id    = wp_unique_id('wp-block-search__input-');
+$wwj_zdguide_placeholder  = isset($attributes['placeholder']) ? sanitize_text_field($attributes['placeholder']) : __('Search help articles', 'zd-guide');
+$wwj_zdguide_show_excerpt = ! empty($attributes['showExcerpt']);
+$wwj_zdguide_results_per  = isset($attributes['resultsPerPage']) ? max(1, min(absint($attributes['resultsPerPage']), 20)) : 5;
+$wwj_zdguide_unique_id    = wp_unique_id('wp-block-search__input-');
 
-$endpoint_url = rest_url('zd-guide/v1/search');
+$wwj_zdguide_endpoint_url = rest_url('zd-guide/v1/search');
 
-$wrapper_attrs = get_block_wrapper_attributes(
+$wwj_zdguide_wrapper_attrs = get_block_wrapper_attributes(
 	array(
 		'class'               => 'wp-block-search wp-block-search__button-outside zd-guide-help-center-search',
 		'action'              => esc_url(home_url('/')),
 		'role'                => 'search',
 		'method'              => 'get',
 		'aria-label'          => __('Search Zendesk help center articles', 'zd-guide'),
-		'data-endpoint'       => esc_url($endpoint_url),
-		'data-results-per-page' => (string) $results_per,
-		'data-show-excerpt'   => $show_excerpt ? '1' : '0',
+		'data-endpoint'       => esc_url($wwj_zdguide_endpoint_url),
+		'data-results-per-page' => (string) $wwj_zdguide_results_per,
+		'data-show-excerpt'   => $wwj_zdguide_show_excerpt ? '1' : '0',
 	)
 );
 
 ?>
-<form <?php echo wp_kses_post($wrapper_attrs); ?>>
-	<label class="wp-block-search__label screen-reader-text" for="<?php echo esc_attr($unique_id); ?>">
+<form <?php echo wp_kses_post($wwj_zdguide_wrapper_attrs); ?>>
+	<label class="wp-block-search__label screen-reader-text" for="<?php echo esc_attr($wwj_zdguide_unique_id); ?>">
 		<?php esc_html_e('Search help articles', 'zd-guide'); ?>
 	</label>
 	<div class="wp-block-search__inside-wrapper">
 		<input
 			type="search"
-			id="<?php echo esc_attr($unique_id); ?>"
+			id="<?php echo esc_attr($wwj_zdguide_unique_id); ?>"
 			class="wp-block-search__input"
 			name="s"
-			placeholder="<?php echo esc_attr($placeholder); ?>"
+			placeholder="<?php echo esc_attr($wwj_zdguide_placeholder); ?>"
 			autocapitalize="none"
 			autocomplete="off"
 			spellcheck="false" />
