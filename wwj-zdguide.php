@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Plugin Name:       WWJ Zendesk Guide
+ * Plugin Name:       WWJ ZD Guide
  * Plugin URI:        https://github.com/worldwidejamie/zd-guide
  * Description:       Connects to the Zendesk Guide API to build a help center in WordPress.
- * Version:           0.1.0
- * Requires at least: 6.8
+ * Version:           1.0
+ * Requires at least: 6.1
  * Requires PHP:      8.0
  * Author:            Jamie Smith
  * Author URI:        https://worldwidejamie.com/

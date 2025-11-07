@@ -1,4 +1,4 @@
-# WWJ Zendesk Guide Plugin - AI Development Guide
+# WWJ ZD Guide Plugin - AI Development Guide
 
 This WordPress plugin integrates Zendesk Guide articles into WordPress as custom posts with hierarchical taxonomy organization, built with modern WordPress 6.8+ development practices and a clear **freemium feature model**.
 

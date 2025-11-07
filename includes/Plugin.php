@@ -253,7 +253,7 @@ final class Plugin
 				</p>
 			</div>
 
-			<p><?php esc_html_e('Are you sure you want to delete the WWJ Zendesk Guide plugin and all its data?', 'zd-guide'); ?></p>
+			<p><?php esc_html_e('Are you sure you want to delete the WWJ ZD Guide plugin and all its data?', 'zd-guide'); ?></p>
 
 			<a href="<?php echo esc_url(wp_nonce_url(admin_url('plugins.php?action=delete-selected&checked[]=' . plugin_basename(WWJ_ZDGUIDE_PLUGIN_DIR . 'zd-guide.php')), 'bulk-plugins')); ?>" class="button button-primary">
 				<?php esc_html_e('Yes, Delete Plugin and Data', 'zd-guide'); ?>
