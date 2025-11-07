@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name:       WWJ Zendesk Guide
- * Plugin URI:        https://example.com/
+ * Plugin URI:        https://github.com/worldwidejamie/zd-guide
  * Description:       Connects to the Zendesk Guide API to build a help center in WordPress.
  * Version:           0.1.0
  * Requires at least: 6.8
