@@ -140,6 +140,8 @@ final class Plugin
 		add_action('init', array($this, 'load_textdomain'));
 		add_action('init', array($this, 'register_blocks'));
 		add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
+		add_action('admin_menu', array($this, 'add_uninstall_page'));
+		add_filter('plugin_action_links_' . plugin_basename(WWJ_ZDGUIDE_PLUGIN_DIR . 'wwj-zdguide.php'), array($this, 'filter_action_links'));
 	}
 
 	/**
@@ -218,6 +220,80 @@ final class Plugin
 			array(),
 			$this->version
 		);
+	}
+
+	/**
+	 * Adds a hidden admin page for the uninstall confirmation screen.
+	 *
+	 * @return void
+	 */
+	public function add_uninstall_page(): void
+	{
+		add_submenu_page(
+			null, // Don't show in the menu.
+			__('Uninstall Zendesk Guide Plugin', 'wwj-zdguide'),
+			__('Uninstall', 'wwj-zdguide'),
+			'delete_plugins',
+			'wwj-zdguide-uninstall',
+			array($this, 'render_uninstall_page')
+		);
+	}
+
+	/**
+	 * Renders the custom uninstall confirmation page.
+	 *
+	 * @return void
+	 */
+	public function render_uninstall_page(): void
+	{
+?>
+		<div class="wrap">
+			<h1><?php echo esc_html__('Uninstall Zendesk Guide Plugin', 'wwj-zdguide'); ?></h1>
+			<div class="notice notice-error">
+				<p>
+					<strong><?php esc_html_e('Warning: This is a destructive action.', 'wwj-zdguide'); ?></strong>
+				</p>
+				<p>
+					<?php
+					echo wp_kses_post(
+						__(
+							'Deleting this plugin will <strong>permanently remove all imported Zendesk articles, categories, and sections</strong> from your WordPress database. This data cannot be recovered unless you have a backup or re-sync from your Zendesk account.',
+							'wwj-zdguide'
+						)
+					);
+					?>
+				</p>
+				<p>
+					<?php esc_html_e('Please ensure you have a complete backup of your site or still have access to your original Zendesk Guide content before proceeding.', 'wwj-zdguide'); ?>
+				</p>
+			</div>
+
+			<p><?php esc_html_e('Are you sure you want to delete the WWJ Zendesk Guide plugin and all its data?', 'wwj-zdguide'); ?></p>
+
+			<a href="<?php echo esc_url(wp_nonce_url(admin_url('plugins.php?action=delete-selected&checked[]=' . plugin_basename(WWJ_ZDGUIDE_PLUGIN_DIR . 'wwj-zdguide.php')), 'bulk-plugins')); ?>" class="button button-primary">
+				<?php esc_html_e('Yes, Delete Plugin and Data', 'wwj-zdguide'); ?>
+			</a>
+			<a href="<?php echo esc_url(admin_url('plugins.php')); ?>" class="button">
+				<?php esc_html_e('No, Cancel and Return to Plugins', 'wwj-zdguide'); ?>
+			</a>
+		</div>
+<?php
+	}
+
+	/**
+	 * Replaces the 'Delete' action link with a link to our custom confirmation page.
+	 *
+	 * @param array $links The existing action links.
+	 * @return array The modified action links.
+	 */
+	public function filter_action_links(array $links): array
+	{
+		if (isset($links['delete'])) {
+			$uninstall_url = admin_url('admin.php?page=wwj-zdguide-uninstall');
+			$links['delete'] = sprintf('<a href="%s" class="delete">%s</a>', esc_url($uninstall_url), __('Delete', 'wwj-zdguide'));
+		}
+
+		return $links;
 	}
 
 	/**

@@ -56,4 +56,5 @@ foreach ($taxonomies as $taxonomy) {
 // Drop the custom database table.
 global $wpdb;
 $table_name = $wpdb->prefix . 'wwj_zdguide_map';
-$wpdb->query("DROP TABLE IF EXISTS {$table_name}"); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+$wpdb->query($wpdb->prepare('DROP TABLE IF EXISTS %i', $table_name));
