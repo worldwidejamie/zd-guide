@@ -102,8 +102,11 @@ class Mapping_Repository
 	 */
 	public function get_term_id(string $taxonomy, int $zendesk_id): ?int
 	{
-		$sql = $this->wpdb->prepare(
-			"SELECT object_id FROM {$this->table_name} WHERE object_type = %s AND taxonomy = %s AND zendesk_id = %d LIMIT 1",
+		$sql = $this->wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			sprintf(
+				'SELECT object_id FROM %s WHERE object_type = %%s AND taxonomy = %%s AND zendesk_id = %%d LIMIT 1',
+				$this->table_name
+			),
 			'term',
 			$taxonomy,
 			$zendesk_id
@@ -121,8 +124,11 @@ class Mapping_Repository
 	 */
 	public function get_term_ids(string $taxonomy): array
 	{
-		$sql = $this->wpdb->prepare(
-			"SELECT object_id FROM {$this->table_name} WHERE object_type = %s AND taxonomy = %s",
+		$sql = $this->wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			sprintf(
+				'SELECT object_id FROM %s WHERE object_type = %%s AND taxonomy = %%s',
+				$this->table_name
+			),
 			'term',
 			$taxonomy
 		);
@@ -158,8 +164,11 @@ class Mapping_Repository
 	 */
 	public function get_post_id(int $zendesk_id): ?int
 	{
-		$sql = $this->wpdb->prepare(
-			"SELECT object_id FROM {$this->table_name} WHERE object_type = %s AND zendesk_id = %d LIMIT 1",
+		$sql = $this->wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			sprintf(
+				'SELECT object_id FROM %s WHERE object_type = %%s AND zendesk_id = %%d LIMIT 1',
+				$this->table_name
+			),
 			'post',
 			$zendesk_id
 		);
