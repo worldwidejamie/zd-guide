@@ -1,35 +1,35 @@
-.wwj-zdguide-template {
+.zd-guide-template {
 	margin: 0 auto;
 	max-width: 960px;
 	padding: 3rem 1.5rem;
 }
 
-.wwj-zdguide-template__header {
+.zd-guide-template__header {
 	margin-bottom: 2rem;
 	text-align: center;
 }
 
-.wwj-zdguide-template__title {
+.zd-guide-template__title {
 	margin: 0;
 	font-size: 2.5rem;
 	line-height: 1.2;
 }
 
-.wwj-zdguide-template__description {
+.zd-guide-template__description {
 	margin-top: 0.75rem;
 	color: #4f4f4f;
 }
 
-.wwj-zdguide-template__section {
+.zd-guide-template__section {
 	margin-top: 3rem;
 }
 
-.wwj-zdguide-template__section-title {
+.zd-guide-template__section-title {
 	margin-bottom: 1.5rem;
 	font-size: 1.75rem;
 }
 
-.wwj-zdguide-taxonomy-list {
+.zd-guide-taxonomy-list {
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -37,7 +37,7 @@
 	gap: 1.5rem;
 }
 
-.wwj-zdguide-taxonomy-item {
+.zd-guide-taxonomy-item {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
 	padding: 1.5rem;
@@ -46,30 +46,30 @@
 	transition: box-shadow 0.2s ease;
 }
 
-.wwj-zdguide-taxonomy-item:hover {
+.zd-guide-taxonomy-item:hover {
 	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-.wwj-zdguide-taxonomy-header {
+.zd-guide-taxonomy-header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	gap: 1rem;
 }
 
-.wwj-zdguide-taxonomy-name {
+.zd-guide-taxonomy-name {
 	font-size: 1.25rem;
 	font-weight: 600;
 	color: inherit;
 	text-decoration: none;
 }
 
-.wwj-zdguide-taxonomy-name:hover,
-.wwj-zdguide-taxonomy-name:focus {
+.zd-guide-taxonomy-name:hover,
+.zd-guide-taxonomy-name:focus {
 	color: #1a5aff;
 }
 
-.wwj-zdguide-taxonomy-count {
+.zd-guide-taxonomy-count {
 	background-color: rgba(26, 90, 255, 0.1);
 	color: #1a5aff;
 	border-radius: 999px;
@@ -78,13 +78,13 @@
 	font-weight: 600;
 }
 
-.wwj-zdguide-taxonomy-description {
+.zd-guide-taxonomy-description {
 	margin-top: 0.75rem;
 	color: #4f4f4f;
 	line-height: 1.6;
 }
 
-.wwj-zdguide-template__empty {
+.zd-guide-template__empty {
 	margin-top: 1.5rem;
 	font-style: italic;
 	color: #6b6b6b;

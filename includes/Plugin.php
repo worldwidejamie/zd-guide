@@ -125,6 +125,7 @@ final class Plugin
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Taxonomies/Base_Taxonomy.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/API/Help_Center_Search_Controller.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/API/Zendesk_Client.php';
+		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Sync/Mapping_Repository.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Sync/Sync_Handler.php';
 		require_once WWJ_ZDGUIDE_PLUGIN_DIR . 'includes/Templates/Template_Loader.php';
 	}
@@ -136,9 +137,10 @@ final class Plugin
 	 */
 	private function init_hooks(): void
 	{
-		add_action('init', array($this, 'load_textdomain'));
 		add_action('init', array($this, 'register_blocks'));
 		add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
+		add_action('admin_menu', array($this, 'add_uninstall_page'));
+		add_filter('plugin_action_links_' . plugin_basename(WWJ_ZDGUIDE_PLUGIN_DIR . 'zd-guide.php'), array($this, 'filter_action_links'));
 	}
 
 	/**
@@ -155,20 +157,6 @@ final class Plugin
 		$this->sync_handler      = new Sync_Handler($this->settings);
 		$this->template_loader   = new Template_Loader();
 		$this->search_controller = new Help_Center_Search_Controller();
-	}
-
-	/**
-	 * Load plugin text domain.
-	 *
-	 * @return void
-	 */
-	public function load_textdomain(): void
-	{
-		load_plugin_textdomain(
-			'wwj-zdguide',
-			false,
-			dirname(plugin_basename(WWJ_ZDGUIDE_PLUGIN_DIR)) . '/languages/'
-		);
 	}
 
 	/**
@@ -212,11 +200,85 @@ final class Plugin
 		}
 
 		wp_enqueue_style(
-			'wwj-zdguide-admin',
+			'zd-guide-admin',
 			WWJ_ZDGUIDE_PLUGIN_URL . 'assets/css/admin.css',
 			array(),
 			$this->version
 		);
+	}
+
+	/**
+	 * Adds a hidden admin page for the uninstall confirmation screen.
+	 *
+	 * @return void
+	 */
+	public function add_uninstall_page(): void
+	{
+		add_submenu_page(
+			null, // Don't show in the menu.
+			__('Uninstall Zendesk Guide Plugin', 'zd-guide'),
+			__('Uninstall', 'zd-guide'),
+			'delete_plugins',
+			'zd-guide-uninstall',
+			array($this, 'render_uninstall_page')
+		);
+	}
+
+	/**
+	 * Renders the custom uninstall confirmation page.
+	 *
+	 * @return void
+	 */
+	public function render_uninstall_page(): void
+	{
+?>
+		<div class="wrap">
+			<h1><?php echo esc_html__('Uninstall Zendesk Guide Plugin', 'zd-guide'); ?></h1>
+			<div class="notice notice-error">
+				<p>
+					<strong><?php esc_html_e('Warning: This is a destructive action.', 'zd-guide'); ?></strong>
+				</p>
+				<p>
+					<?php
+					echo wp_kses_post(
+						__(
+							'Deleting this plugin will <strong>permanently remove all imported Zendesk articles, categories, and sections</strong> from your WordPress database. This data cannot be recovered unless you have a backup or re-sync from your Zendesk account.',
+							'zd-guide'
+						)
+					);
+					?>
+				</p>
+				<p>
+					<?php esc_html_e('Please ensure you have a complete backup of your site or still have access to your original Zendesk Guide content before proceeding.', 'zd-guide'); ?>
+				</p>
+			</div>
+
+			<p><?php esc_html_e('Are you sure you want to delete the WWJ ZD Guide plugin and all its data?', 'zd-guide'); ?></p>
+
+			<a href="<?php echo esc_url(wp_nonce_url(admin_url('plugins.php?action=delete-selected&checked[]=' . plugin_basename(WWJ_ZDGUIDE_PLUGIN_DIR . 'zd-guide.php')), 'bulk-plugins')); ?>" class="button button-primary">
+				<?php esc_html_e('Yes, Delete Plugin and Data', 'zd-guide'); ?>
+			</a>
+			<a href="<?php echo esc_url(admin_url('plugins.php')); ?>" class="button">
+				<?php esc_html_e('No, Cancel and Return to Plugins', 'zd-guide'); ?>
+			</a>
+		</div>
+<?php
+	}
+
+	/**
+	 * Replaces the 'Delete' action link with a link to our custom confirmation page.
+	 *
+	 * @param array $links The existing action links.
+	 * @return array The modified action links.
+	 */
+	public function filter_action_links(array $links): array
+	{
+		if (isset($links['delete'])) {
+			$uninstall_url = admin_url('admin.php?page=zd-guide-uninstall');
+			$links['delete'] = sprintf('<a href="%s" class="delete">%s</a>', esc_url($uninstall_url), __('Delete', 'zd-guide'));
+		}
+
+		return $links;
 	}
 
 	/**

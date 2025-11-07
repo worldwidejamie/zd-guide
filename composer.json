@@ -2,7 +2,7 @@
   "name": "wwj/zdguide",
   "description": "Connects to the Zendesk Guide API to build a help center in WordPress",
   "type": "wordpress-plugin",
-  "license": "GPL-2.0-or-later",
+  "license": "GPL-3.0-or-later",
   "require": {
     "php": ">=8.0"
   },

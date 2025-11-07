@@ -1,6 +1,6 @@
 <div style="text-align: center;">
 
-# WWJ Zendesk Guide Plugin
+# WWJ ZD Guide Plugin
 
 </div>
 
@@ -67,7 +67,7 @@ npm run lint:css
 ### Project Structure
 
 ```
-wwj-zdguide/
+zd-guide/
 ├── src/                    # Source files
 │   └── blocks/            # Block development
 │       └── article/       # Article block
@@ -168,7 +168,7 @@ Authorization: Basic base64(email/token:api_token)
 
 ## License
 
-GPL-2.0-or-later
+GPL-3.0-or-later
 
 ## Support
 

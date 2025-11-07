@@ -1,7 +1,7 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "wwj-zdguide/help-center-search",
+  "name": "zd-guide/help-center-search",
   "version": "0.1.0",
   "title": "Zendesk Help Center Search",
   "category": "widgets",
@@ -22,7 +22,7 @@
       "textTransform": true
     }
   },
-  "textdomain": "wwj-zdguide",
+  "textdomain": "zd-guide",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",

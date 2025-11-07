@@ -96,7 +96,7 @@ class Zendesk_Client
 		$data          = json_decode($body);
 
 		if (200 !== $response_code) {
-			$error_message = $data->error ?? __('Unknown API error', 'wwj-zdguide');
+			$error_message = $data->error ?? __('Unknown API error', 'zd-guide');
 			return new WP_Error('api_error', $error_message, array('status' => $response_code));
 		}
 

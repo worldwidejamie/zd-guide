@@ -1,4 +1,4 @@
-# WWJ Zendesk Guide Plugin - AI Development Guide
+# WWJ ZD Guide Plugin - AI Development Guide
 
 This WordPress plugin integrates Zendesk Guide articles into WordPress as custom posts with hierarchical taxonomy organization, built with modern WordPress 6.8+ development practices and a clear **freemium feature model**.
 
@@ -6,7 +6,7 @@ This WordPress plugin integrates Zendesk Guide articles into WordPress as custom
 
 **Core Components:**
 
-* `wwj-zdguide.php` - Main plugin file with admin interface and API credential management. Also handles freemium licensing checks.
+* `zd-guide.php` - Main plugin file with admin interface and API credential management. Also handles freemium licensing checks.
 * `post-types.php` - Custom post type (`zd_article`) and taxonomies (`zd_category`, `zd_section`).
 * `sync.php` - Zendesk API integration with hierarchical sync workflow and caching logic.
 * `src/` - Modern block development using @wordpress/scripts and JSX.
@@ -35,7 +35,7 @@ This WordPress plugin integrates Zendesk Guide articles into WordPress as custom
 
 The plugin follows a **freemium model**. The free version provides the fundamental, manual "sync and display" functionality, while the Pro version focuses on **automation, enhanced UX, and deep service integration**.
 
-### Free Version (Core `wwj-zdguide` Plugin)
+### Free Version (Core `zd-guide` Plugin)
 
 The Free version is the foundation, providing the essential value needed to run a help center with manual management.
 
@@ -46,7 +46,7 @@ The Free version is the foundation, providing the essential value needed to run 
 | **Basic Search** | A functional search utility that connects directly to the Zendesk Search API to provide accurate, real-time results from the knowledge base. | Secure server-side request to the Zendesk `/search.json` endpoint; results link to the local `zd_article` post URLs. |
 | **Performance** | Essential **Transient-based caching** for all API requests to protect against rate limits and ensure fast page load times. | Use of WordPress Transients API with a sensible expiration time (e.g., 30 minutes). |
 
-### Pro Version (Add-on Plugin `wwj-zdguide-pro`)
+### Pro Version (Add-on Plugin `zd-guide-pro`)
 
 The Pro features are reserved for advanced users or organizations that prioritize efficiency, professional design, and full support workflow integration. This code must reside in a separate plugin directory.
 
@@ -89,7 +89,7 @@ The Pro features are reserved for advanced users or organizations that prioritiz
 * `npm run build` for production builds.
 * Include `package.json` with `@wordpress/scripts` dependency.
 
-**Text Domain:** All strings use **`wwj-zdguide`** - maintain consistency for i18n.
+**Text Domain:** All strings use **`zd-guide`** - maintain consistency for i18n.
 
 ## Technical Gating Strategy
 
@@ -98,7 +98,7 @@ The Pro version must be robustly gated to protect premium features while still b
 1.  **Dependency and Activation Check:** The Pro plugin's main file should check for the free plugin's presence and define a constant if active.
 
     ```php
-    // In wwj-zdguide-pro.php
+    // In zd-guide-pro.php
     if ( ! defined( 'WWJ_ZDGUIDE_VERSION' ) ) return; // Ensure free plugin is active
     define( 'WWJ_ZDGUIDE_PRO_ACTIVE', true );
     ```

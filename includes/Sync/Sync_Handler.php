@@ -11,6 +11,7 @@ namespace WwjZdguide\Sync;
 
 use WwjZdguide\API\Zendesk_Client;
 use WwjZdguide\Admin\Settings;
+use WwjZdguide\Sync\Mapping_Repository;
 use WP_Error;
 use WP_Term;
 
@@ -45,13 +46,20 @@ class Sync_Handler
 	private array $term_cache = array();
 
 	/**
+	 * Mapping repository.
+	 */
+	private Mapping_Repository $mapping_repository;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param Settings $settings Settings instance.
+	 * @param Settings                 $settings            Settings instance.
+	 * @param Mapping_Repository|null  $mapping_repository Mapping repository instance.
 	 */
-	public function __construct(Settings $settings)
+	public function __construct(Settings $settings, ?Mapping_Repository $mapping_repository = null)
 	{
-		$this->settings = $settings;
+		$this->settings           = $settings;
+		$this->mapping_repository = $mapping_repository ?: new Mapping_Repository();
 
 		add_action('admin_init', array($this, 'handle_test_connection'));
 		add_action('admin_init', array($this, 'handle_sync_categories'));
@@ -113,7 +121,7 @@ class Sync_Handler
 	 */
 	public function handle_test_connection(): void
 	{
-		if (! isset($_GET['wwj_zdguide_test_connection']) || ! wp_verify_nonce($_GET['_wpnonce'], 'wwj_zdguide_test_connection')) {
+		if (! $this->is_valid_request('wwj_zdguide_test_connection')) {
 			return;
 		}
 
@@ -121,7 +129,7 @@ class Sync_Handler
 
 		if (! $client) {
 			$this->add_notice(
-				__('Please fill in all API settings before testing the connection.', 'wwj-zdguide'),
+				__('Please fill in all API settings before testing the connection.', 'zd-guide'),
 				'error'
 			);
 			return;
@@ -133,7 +141,7 @@ class Sync_Handler
 			$this->add_notice(
 				sprintf(
 					/* translators: %s: error message */
-					__('API connection failed: %s', 'wwj-zdguide'),
+					__('API connection failed: %s', 'zd-guide'),
 					$result->get_error_message()
 				),
 				'error'
@@ -141,7 +149,7 @@ class Sync_Handler
 			return;
 		}
 
-		$this->add_notice(__('API connection successful!', 'wwj-zdguide'));
+		$this->add_notice(__('API connection successful!', 'zd-guide'));
 	}
 
 	/**
@@ -151,7 +159,7 @@ class Sync_Handler
 	 */
 	public function handle_sync_categories(): void
 	{
-		if (! isset($_GET['wwj_zdguide_sync_categories']) || ! wp_verify_nonce($_GET['_wpnonce'], 'wwj_zdguide_sync_categories')) {
+		if (! $this->is_valid_request('wwj_zdguide_sync_categories')) {
 			return;
 		}
 
@@ -159,7 +167,7 @@ class Sync_Handler
 
 		if (! $client) {
 			$this->add_notice(
-				__('Please fill in all API settings before syncing categories.', 'wwj-zdguide'),
+				__('Please fill in all API settings before syncing categories.', 'zd-guide'),
 				'error'
 			);
 			return;
@@ -171,7 +179,7 @@ class Sync_Handler
 			$this->add_notice(
 				sprintf(
 					/* translators: %s: error message */
-					__('Failed to fetch categories: %s', 'wwj-zdguide'),
+					__('Failed to fetch categories: %s', 'zd-guide'),
 					$categories->get_error_message()
 				),
 				'error'
@@ -181,7 +189,7 @@ class Sync_Handler
 
 		if (empty($categories)) {
 			$this->add_notice(
-				__('No categories found in Zendesk.', 'wwj-zdguide'),
+				__('No categories found in Zendesk.', 'zd-guide'),
 				'warning'
 			);
 			return;
@@ -190,7 +198,8 @@ class Sync_Handler
 		$synced_count = 0;
 
 		foreach ($categories as $category) {
-			$term = $this->get_term_by_meta('zd_category', 'zendesk_category_id', $category->id);
+			$zendesk_id = (int) $category->id;
+			$term = $this->get_term_by_meta('zd_category', 'zendesk_category_id', $zendesk_id);
 			$slug = $this->generate_slug((string) $category->name, (string) $category->id);
 
 			if (! $term) {
@@ -204,8 +213,9 @@ class Sync_Handler
 				);
 
 				if (! is_wp_error($new_term)) {
-					update_term_meta($new_term['term_id'], 'zendesk_category_id', $category->id);
-					$this->prime_term_cache('zd_category', $category->id, get_term($new_term['term_id'], 'zd_category'));
+					update_term_meta($new_term['term_id'], 'zendesk_category_id', $zendesk_id);
+					$this->mapping_repository->store_term_mapping('zd_category', (int) $new_term['term_id'], $zendesk_id);
+					$this->prime_term_cache('zd_category', $zendesk_id, get_term($new_term['term_id'], 'zd_category'));
 					$synced_count++;
 				}
 			} else {
@@ -224,15 +234,16 @@ class Sync_Handler
 				}
 
 				wp_update_term($term->term_id, 'zd_category', $updated_args);
-				update_term_meta($term->term_id, 'zendesk_category_id', $category->id);
-				$this->prime_term_cache('zd_category', $category->id, get_term($term->term_id, 'zd_category'));
+				update_term_meta($term->term_id, 'zendesk_category_id', $zendesk_id);
+				$this->mapping_repository->store_term_mapping('zd_category', (int) $term->term_id, $zendesk_id);
+				$this->prime_term_cache('zd_category', $zendesk_id, get_term($term->term_id, 'zd_category'));
 			}
 		}
 
 		$this->add_notice(
 			sprintf(
 				/* translators: %d: number of categories synced */
-				__('Successfully synced %d new categories.', 'wwj-zdguide'),
+				__('Successfully synced %d new categories.', 'zd-guide'),
 				$synced_count
 			)
 		);
@@ -245,7 +256,7 @@ class Sync_Handler
 	 */
 	public function handle_sync_sections(): void
 	{
-		if (! isset($_GET['wwj_zdguide_sync_sections']) || ! wp_verify_nonce($_GET['_wpnonce'], 'wwj_zdguide_sync_sections')) {
+		if (! $this->is_valid_request('wwj_zdguide_sync_sections')) {
 			return;
 		}
 
@@ -253,8 +264,18 @@ class Sync_Handler
 
 		if (! $client) {
 			$this->add_notice(
-				__('Please fill in all API settings before syncing sections.', 'wwj-zdguide'),
+				__('Please fill in all API settings before syncing sections.', 'zd-guide'),
 				'error'
+			);
+			return;
+		}
+
+		$category_ids = $this->mapping_repository->get_term_ids('zd_category');
+
+		if (empty($category_ids)) {
+			$this->add_notice(
+				__('No categories to sync sections from. Please sync categories first.', 'zd-guide'),
+				'warning'
 			);
 			return;
 		}
@@ -263,18 +284,13 @@ class Sync_Handler
 			array(
 				'taxonomy'   => 'zd_category',
 				'hide_empty' => false,
-				'meta_query' => array(
-					array(
-						'key'     => 'zendesk_category_id',
-						'compare' => 'EXISTS',
-					),
-				),
+				'include'    => $category_ids,
 			)
 		);
 
-		if (empty($categories)) {
+		if (is_wp_error($categories) || empty($categories)) {
 			$this->add_notice(
-				__('No categories to sync sections from. Please sync categories first.', 'wwj-zdguide'),
+				__('No categories to sync sections from. Please sync categories first.', 'zd-guide'),
 				'warning'
 			);
 			return;
@@ -291,7 +307,8 @@ class Sync_Handler
 			}
 
 			foreach ($sections as $section) {
-				$term = $this->get_term_by_meta('zd_section', 'zendesk_section_id', $section->id);
+				$zendesk_section_id = (int) $section->id;
+				$term = $this->get_term_by_meta('zd_section', 'zendesk_section_id', $zendesk_section_id);
 				$slug = $this->generate_slug((string) $section->name, (string) $section->id);
 
 				if (! $term) {
@@ -306,9 +323,10 @@ class Sync_Handler
 					);
 
 					if (! is_wp_error($new_term)) {
-						update_term_meta($new_term['term_id'], 'zendesk_section_id', $section->id);
+						update_term_meta($new_term['term_id'], 'zendesk_section_id', $zendesk_section_id);
 						update_term_meta($new_term['term_id'], 'zd_category_term_id', $category->term_id);
-						$this->prime_term_cache('zd_section', $section->id, get_term($new_term['term_id'], 'zd_section'));
+						$this->mapping_repository->store_term_mapping('zd_section', (int) $new_term['term_id'], $zendesk_section_id);
+						$this->prime_term_cache('zd_section', $zendesk_section_id, get_term($new_term['term_id'], 'zd_section'));
 						$synced_count++;
 					}
 				} else {
@@ -328,9 +346,10 @@ class Sync_Handler
 					}
 
 					wp_update_term($term->term_id, 'zd_section', $updated_args);
-					update_term_meta($term->term_id, 'zendesk_section_id', $section->id);
+					update_term_meta($term->term_id, 'zendesk_section_id', $zendesk_section_id);
 					update_term_meta($term->term_id, 'zd_category_term_id', $category->term_id);
-					$this->prime_term_cache('zd_section', $section->id, get_term($term->term_id, 'zd_section'));
+					$this->mapping_repository->store_term_mapping('zd_section', (int) $term->term_id, $zendesk_section_id);
+					$this->prime_term_cache('zd_section', $zendesk_section_id, get_term($term->term_id, 'zd_section'));
 				}
 			}
 		}
@@ -338,7 +357,7 @@ class Sync_Handler
 		$this->add_notice(
 			sprintf(
 				/* translators: %d: number of sections synced */
-				__('Successfully synced %d new sections.', 'wwj-zdguide'),
+				__('Successfully synced %d new sections.', 'zd-guide'),
 				$synced_count
 			)
 		);
@@ -351,7 +370,7 @@ class Sync_Handler
 	 */
 	public function handle_sync_articles(): void
 	{
-		if (! isset($_GET['wwj_zdguide_sync_articles']) || ! wp_verify_nonce($_GET['_wpnonce'], 'wwj_zdguide_sync_articles')) {
+		if (! $this->is_valid_request('wwj_zdguide_sync_articles')) {
 			return;
 		}
 
@@ -359,8 +378,18 @@ class Sync_Handler
 
 		if (! $client) {
 			$this->add_notice(
-				__('Please fill in all API settings before syncing articles.', 'wwj-zdguide'),
+				__('Please fill in all API settings before syncing articles.', 'zd-guide'),
 				'error'
+			);
+			return;
+		}
+
+		$section_ids = $this->mapping_repository->get_term_ids('zd_section');
+
+		if (empty($section_ids)) {
+			$this->add_notice(
+				__('No sections to sync articles from. Please sync sections first.', 'zd-guide'),
+				'warning'
 			);
 			return;
 		}
@@ -369,18 +398,13 @@ class Sync_Handler
 			array(
 				'taxonomy'   => 'zd_section',
 				'hide_empty' => false,
-				'meta_query' => array(
-					array(
-						'key'     => 'zendesk_section_id',
-						'compare' => 'EXISTS',
-					),
-				),
+				'include'    => $section_ids,
 			)
 		);
 
-		if (empty($sections)) {
+		if (is_wp_error($sections) || empty($sections)) {
 			$this->add_notice(
-				__('No sections to sync articles from. Please sync sections first.', 'wwj-zdguide'),
+				__('No sections to sync articles from. Please sync sections first.', 'zd-guide'),
 				'warning'
 			);
 			return;
@@ -389,22 +413,25 @@ class Sync_Handler
 		$synced_count = 0;
 
 		foreach ($sections as $section) {
-			$zendesk_section_id = get_term_meta($section->term_id, 'zendesk_section_id', true);
-			$articles           = $client->get_articles((int) $zendesk_section_id);
+			$zendesk_section_id = (int) get_term_meta($section->term_id, 'zendesk_section_id', true);
+			$articles           = $client->get_articles($zendesk_section_id);
 
 			if (is_wp_error($articles)) {
 				continue;
 			}
 
 			foreach ($articles as $article) {
-				$existing_posts = get_posts(
-					array(
-						'post_type'      => 'zd_article',
-						'meta_key'       => 'zendesk_article_id',
-						'meta_value'     => $article->id,
-						'posts_per_page' => 1,
-					)
-				);
+				$zendesk_article_id = (int) $article->id;
+				$post_id            = $this->mapping_repository->get_post_id($zendesk_article_id);
+				$existing_post      = null;
+
+				if ($post_id) {
+					$existing_post = get_post($post_id);
+					if (! $existing_post || 'zd_article' !== $existing_post->post_type) {
+						$post_id       = 0;
+						$existing_post = null;
+					}
+				}
 
 				$post_data = array(
 					'post_title'   => $article->title,
@@ -413,10 +440,10 @@ class Sync_Handler
 					'post_type'    => 'zd_article',
 				);
 
-				if (! empty($existing_posts)) {
-					$post_data['ID'] = $existing_posts[0]->ID;
+				if ($existing_post instanceof \WP_Post) {
+					$post_data['ID'] = $existing_post->ID;
 					wp_update_post($post_data);
-					$post_id = $existing_posts[0]->ID;
+					$post_id = $existing_post->ID;
 				} else {
 					$post_id = wp_insert_post($post_data);
 					if ($post_id > 0) {
@@ -425,7 +452,8 @@ class Sync_Handler
 				}
 
 				if ($post_id > 0) {
-					update_post_meta($post_id, 'zendesk_article_id', $article->id);
+					update_post_meta($post_id, 'zendesk_article_id', $zendesk_article_id);
+					$this->mapping_repository->store_post_mapping($post_id, $zendesk_article_id);
 
 					// Assign section term.
 					wp_set_post_terms($post_id, array($section->term_id), 'zd_section', false);
@@ -441,12 +469,34 @@ class Sync_Handler
 		$this->add_notice(
 			sprintf(
 				/* translators: %d: number of articles synced */
-				__('Successfully synced %d new articles.', 'wwj-zdguide'),
+				__('Successfully synced %d new articles.', 'zd-guide'),
 				$synced_count
 			)
 		);
 	}
 
+	/**
+	 * Check if the current admin request is valid and verified.
+	 *
+	 * @param string $action The action name to check for in the request.
+	 * @return bool True if the request is valid, false otherwise.
+	 */
+	private function is_valid_request(string $action): bool
+	{
+		// Verify nonce first before accessing any $_GET data
+		$nonce = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
+
+		if (! wp_verify_nonce($nonce, $action)) {
+			return false;
+		}
+
+		// After nonce verification, check if action parameter exists
+		if (! isset($_GET[$action])) {
+			return false;
+		}
+
+		return true;
+	}
 	/**
 	 * Retrieve a term by meta value with simple caching.
 	 *
@@ -463,27 +513,21 @@ class Sync_Handler
 			return $this->term_cache[$cache_key] instanceof WP_Term ? $this->term_cache[$cache_key] : null;
 		}
 
-		$terms = get_terms(
-			array(
-				'taxonomy'   => $taxonomy,
-				'hide_empty' => false,
-				'number'     => 1,
-				'meta_query' => array(
-					array(
-						'key'     => $meta_key,
-						'value'   => $meta_value,
-						'compare' => '=',
-					),
-				),
-			)
-		);
+		$zendesk_id = (int) $meta_value;
+		$term_id    = $this->mapping_repository->get_term_id($taxonomy, $zendesk_id);
 
-		if (is_wp_error($terms) || empty($terms)) {
+		if (! $term_id) {
 			$this->term_cache[$cache_key] = null;
 			return null;
 		}
 
-		$term = $terms[0];
+		$term = get_term($term_id, $taxonomy);
+
+		if (! $term instanceof WP_Term) {
+			$this->term_cache[$cache_key] = null;
+			return null;
+		}
+
 		$this->term_cache[$cache_key] = $term;
 
 		return $term;
