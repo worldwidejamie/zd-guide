@@ -18,6 +18,7 @@ const includePatterns = [
   "assets/**/*",
   "zd-guide.php",
   "README.md",
+  "readme.txt",
   "LICENSE",
 ];
 
